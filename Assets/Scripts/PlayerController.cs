@@ -118,5 +118,14 @@ public class PlayerController : MonoBehaviour {
     void resetCurrentAttackPower()
     {
         attackPower = getBaseAttackPower();
-    } 
+    }
+
+    //CHECK COLLISIONS
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Player collided with enemy");
+        }
+    }
 }
