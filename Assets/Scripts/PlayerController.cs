@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     private int XP;
     private int level;
     private int moneyBalance;
+    public Interactable interactableObj; //Nearby object that can currently be interacted with.
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         movePlayerOnInput();
+        checkForNearbyInteractables();
     }
 
     //MOVEMENT FUNCTIONS
@@ -126,6 +128,29 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Player collided with enemy");
+        }
+    }
+
+    //LOOK FOR INTERACTABLE
+    private void checkForNearbyInteractables()
+    {
+        // Bit shift the index of the layer (8) to get a bit mask
+        int layerMask = 1 << 8;
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 2f, layerMask))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.Log("Press E to interact.");
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("Interacted");
+            }
+        }
+        else
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            Debug.Log("Did not Hit");
         }
     }
 }
