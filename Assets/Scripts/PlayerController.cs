@@ -5,8 +5,12 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
     private int maxHealth;
     private int health;
-    private int baseAttackPower;
-    private int attackPower;
+    private int baseAttackPower; //basic attack power
+    private int attackPower; //current attack power including any effects
+    private int baseDefence; //basic defence stat
+    private int defence; //current defence including any effects
+    private int bravery;
+    private int reflex;
     private int XP;
     private int level;
     private int moneyBalance;
@@ -14,10 +18,14 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        maxHealth = 100;
+        maxHealth = 50;
         health = maxHealth;
         baseAttackPower = 10;
         attackPower = baseAttackPower;
+        baseDefence = 50;
+        defence = baseDefence;
+        bravery = 15;
+        reflex = 30;
         XP = 0;
         level = 1;
         moneyBalance = 0;
@@ -122,6 +130,42 @@ public class PlayerController : MonoBehaviour {
         attackPower = getBaseAttackPower();
     }
 
+    //DEFENCE STAT FUNCTIONS
+    int getCurrentDefence()
+    {
+        return defence;
+    }
+
+    int getBaseDefence()
+    {
+        return baseDefence;
+    }
+
+    void setBaseDefence(int amount)
+    {
+        baseDefence = amount;
+    }
+
+    void increaseCurrentDefence(int amount)
+    {
+        attackPower += amount;
+    }
+
+    void resetCurrentDefence()
+    {
+        defence = getBaseDefence();
+    }
+
+    //GET BRAVERY AND REFLEX
+    int getBravery()
+    {
+        return bravery;
+    }
+
+    int getReflex()
+    {
+        return reflex;
+    }
     //CHECK COLLISIONS
     private void OnCollisionEnter(Collision collision)
     {
