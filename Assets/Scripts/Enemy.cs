@@ -24,32 +24,32 @@ public class Enemy : MonoBehaviour
     }
 
     //RETRIVE STATS
-    int getHealth()
+    public int getHealth()
     {
         return health;
     }
 
-    int getAttack()
+    public int getAttack()
     {
         return attack;
     }
 
-    int getDefence()
+    public int getDefence()
     {
         return defence;
     }
 
-    int getReflex()
+    public int getReflex()
     {
         return reflex;
     }
 
-    int getBravery()
+    public int getBravery()
     {
         return bravery;
     }
 
-    int getIntelligence()
+    public int getIntelligence()
     {
         return intelligence;
     }

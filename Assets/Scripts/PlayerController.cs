@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour {
         return bravery;
     }
 
-    int getReflex()
+    public int getReflex()
     {
         return reflex;
     }
