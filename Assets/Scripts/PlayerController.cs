@@ -16,8 +16,8 @@ public class PlayerController : MonoBehaviour {
     private int moneyBalance;
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
 
-	// Use this for initialization
-	void Start () {
+	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
+	void Awake () {
         maxHealth = 50;
         health = maxHealth;
         baseAttackPower = 10;
