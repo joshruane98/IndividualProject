@@ -13,10 +13,10 @@ public class BattleManager : MonoBehaviour
         decideWhoStarts();
         if (playerTurn)
         {
-            Debug.Log("It's the player's turn");
+            Debug.Log("Player Starts");
         }else
         {
-            Debug.Log("It's the enemy's turn");
+            Debug.Log("Enemy Starts");
         }
     }
 
