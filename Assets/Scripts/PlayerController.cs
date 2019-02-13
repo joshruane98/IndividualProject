@@ -2,15 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
-    private int maxHealth;
-    private int health;
-    private int baseAttackPower; //basic attack power
-    private int attackPower; //current attack power including any effects
-    private int baseDefence; //basic defence stat
-    private int defence; //current defence including any effects
-    private int bravery;
-    private int reflex;
+public class PlayerController : BattleCharacter {
     private int XP;
     private int level;
     private int moneyBalance;
@@ -79,93 +71,23 @@ public class PlayerController : MonoBehaviour {
     }
 
     //HEALTH FUNCTIONS
-    int getCurrentHealth()
-    {
-        return health;
-    }
-
-    int getMaxHealth()
-    {
-        return maxHealth;
-    }
-
     void setMaxHealth(int amount)
     {
         maxHealth = amount;
     }
 
-    void gainHealth(int amount)
-    {
-        health += amount;
-    }
-
-    void loseHealth(int amount)
-    {
-        health -= amount;
-    }
-
     //ATTACK POWER FUNCTIONS
-    int getCurrentAttackPower()
-    {
-        return attackPower;
-    }
-
-    int getBaseAttackPower()
-    {
-        return baseAttackPower;
-    }
-
     void setBaseAttackPower(int amount)
     {
         baseAttackPower = amount;
     }
 
-    void increaseCurrentAttackPower(int amount)
-    {
-        attackPower += amount;
-    }
-
-    void resetCurrentAttackPower()
-    {
-        attackPower = getBaseAttackPower();
-    }
-
     //DEFENCE STAT FUNCTIONS
-    int getCurrentDefence()
-    {
-        return defence;
-    }
-
-    int getBaseDefence()
-    {
-        return baseDefence;
-    }
-
     void setBaseDefence(int amount)
     {
         baseDefence = amount;
     }
 
-    void increaseCurrentDefence(int amount)
-    {
-        attackPower += amount;
-    }
-
-    void resetCurrentDefence()
-    {
-        defence = getBaseDefence();
-    }
-
-    //GET BRAVERY AND REFLEX
-    int getBravery()
-    {
-        return bravery;
-    }
-
-    public int getReflex()
-    {
-        return reflex;
-    }
     //CHECK COLLISIONS
     private void OnCollisionEnter(Collision collision)
     {

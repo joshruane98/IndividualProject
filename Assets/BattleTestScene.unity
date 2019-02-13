@@ -540,7 +540,7 @@ MonoBehaviour:
   health: 50
   attack: 50
   defence: 50
-  reflex: 30
+  reflex: 100
   bravery: 50
   intelligence: 50
 --- !u!135 &2107159420
