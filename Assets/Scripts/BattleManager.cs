@@ -14,8 +14,9 @@ public class BattleManager : MonoBehaviour
 
     private States currentState;
 
-    public Enemy enemy;
-    public PlayerController player;
+    public BattleCharacter enemy;
+    public BattleCharacter player;
+    public GameObject PlayerBattleMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class BattleManager : MonoBehaviour
         switch (currentState)
         {
             case (States.PLAYERS_TURN):
+                PlayerBattleMenu.SetActive(true);
                 break;
             case (States.ENEMYS_TURN):
                 break;
@@ -62,11 +64,6 @@ public class BattleManager : MonoBehaviour
     }
 
     void dealAttackOn(PlayerController _player)
-    {
-
-    }
-
-    void dealAttackOn(Enemy _enemy)
     {
 
     }

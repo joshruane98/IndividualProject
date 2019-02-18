@@ -17,7 +17,7 @@ public class PlayerController : BattleCharacter {
         baseDefence = 50;
         defence = baseDefence;
         bravery = 15;
-        reflex = 30;
+        reflex = 100;
         XP = 0;
         level = 1;
         moneyBalance = 0;
