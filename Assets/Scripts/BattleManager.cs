@@ -14,13 +14,14 @@ public class BattleManager : MonoBehaviour
 
     private States currentState;
 
-    public BattleCharacter enemy;
-    public BattleCharacter player;
+    public Enemy enemy;
+    public PlayerController player;
     public GameObject PlayerBattleMenu;
 
     // Start is called before the first frame update
     void Start()
     {
+        player.inBattle = true;
         decideWhoStarts();
     }
 
@@ -32,6 +33,7 @@ public class BattleManager : MonoBehaviour
         {
             case (States.PLAYERS_TURN):
                 PlayerBattleMenu.SetActive(true);
+                switchTurns();
                 break;
             case (States.ENEMYS_TURN):
                 break;
@@ -60,6 +62,18 @@ public class BattleManager : MonoBehaviour
         }else
         {
             currentState = States.ENEMYS_TURN;
+        }
+    }
+
+    void switchTurns()
+    {
+        if (currentState == States.PLAYERS_TURN)
+        {
+            currentState = States.ENEMYS_TURN;
+        }
+        else if (currentState == States.ENEMYS_TURN)
+        {
+            currentState = States.PLAYERS_TURN;
         }
     }
 

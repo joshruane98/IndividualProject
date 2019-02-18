@@ -7,9 +7,11 @@ public class PlayerController : BattleCharacter {
     private int level;
     private int moneyBalance;
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
+    public bool inBattle; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
 	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
 	void Awake () {
+        inBattle = false;
         maxHealth = 50;
         health = maxHealth;
         baseAttackPower = 10;
@@ -32,21 +34,24 @@ public class PlayerController : BattleCharacter {
     //MOVEMENT FUNCTIONS
     void movePlayerOnInput()
     {
-        if (Input.GetKey("up"))
+        if (!inBattle)
         {
-            goForward();
-        }
-        else if (Input.GetKey("down"))
-        {
-            goBack();
-        }
-        else if (Input.GetKey("left"))
-        {
-            goLeft();
-        }
-        else if (Input.GetKey("right"))
-        {
-            goRight();
+            if (Input.GetKey("up"))
+            {
+                goForward();
+            }
+            else if (Input.GetKey("down"))
+            {
+                goBack();
+            }
+            else if (Input.GetKey("left"))
+            {
+                goLeft();
+            }
+            else if (Input.GetKey("right"))
+            {
+                goRight();
+            }
         }
     }
 
