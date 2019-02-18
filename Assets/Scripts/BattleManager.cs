@@ -33,9 +33,13 @@ public class BattleManager : MonoBehaviour
         {
             case (States.PLAYERS_TURN):
                 PlayerBattleMenu.SetActive(true);
-                switchTurns();
+                //switchTurns();
                 break;
             case (States.ENEMYS_TURN):
+                PlayerBattleMenu.SetActive(false);
+                enemy.Attack(player);
+                Debug.Log("Enemy Attacked!");
+                switchTurns();
                 break;
             case (States.PLAYER_WIN):
                 break;

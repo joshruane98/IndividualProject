@@ -57,45 +57,66 @@ public class BattleCharacter : MonoBehaviour
     //---ALTER STATS---
 
     //Health
-    public void gainHealth(int amount)
+    public void GainHealth(int amount)
     {
         health += amount;
     }
 
-    public void loseHealth(int amount)
+    public void LoseHealth(int amount)
     {
         health -= amount;
     }
 
     //Attack
-    public void increaseAttackPower(int amount)
+    public void IncreaseAttackPower(int amount)
     {
         attackPower += amount;
     }
 
-    public void decreaseAttackPower(int amount)
+    public void DecreaseAttackPower(int amount)
     {
         attackPower -= amount;
     }
 
-    public void resetAttackPower()
+    public void ResetAttackPower()
     {
         attackPower = getBaseAttackPower();
     }
 
     //Defence
-    public void increaseDefence(int amount)
+    public void IncreaseDefence(int amount)
     {
         defence += amount;
     }
 
-    public void decreaseDefence(int amount)
+    public void DecreaseDefence(int amount)
     {
         defence -= amount;
     }
 
-    public void resetDefence()
+    public void ResetDefence()
     {
         defence = getBaseDefence();
+    }
+
+    //---BATTLE ACTIONS---
+    public void Attack(BattleCharacter target)
+    {
+        target.LoseHealth(getAttackPower());
+    }
+
+    public void SpeedyAttack(BattleCharacter target)
+    {
+
+    }
+
+    public void Intimidate(BattleCharacter target)
+    {
+
+    }
+
+    public void Observe(BattleCharacter target)
+    {
+
     }
 }
