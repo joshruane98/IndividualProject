@@ -28,12 +28,12 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        checkForBattleEnd();
         Debug.Log(currentState);
         switch (currentState)
         {
             case (States.PLAYERS_TURN):
                 PlayerBattleMenu.SetActive(true);
-                //switchTurns();
                 break;
             case (States.ENEMYS_TURN):
                 PlayerBattleMenu.SetActive(false);
@@ -99,6 +99,19 @@ public class BattleManager : MonoBehaviour
         else if (action == "Intimidate")
         {
             player.Intimidate(enemy);
+        }
+        switchTurns();
+    }
+
+    void checkForBattleEnd()
+    {
+        if (player.getHealth() <= 0 )
+        {
+            currentState = States.PLAYER_LOSE;
+        }
+        else if (enemy.getHealth() <= 0 )
+        {
+            currentState = States.PLAYER_WIN;
         }
     }
 
