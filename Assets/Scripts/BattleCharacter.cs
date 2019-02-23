@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -107,7 +108,7 @@ public class BattleCharacter : MonoBehaviour
 
     public void SpeedyAttack(BattleCharacter target)
     {
-
+        target.LoseHealth((int)(getAttackPower() * 1.5));
     }
 
     public void Intimidate(BattleCharacter target)

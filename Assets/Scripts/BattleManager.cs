@@ -81,6 +81,27 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public void handlePlayerAction(string action)
+    {
+        Debug.Log(action);
+        if (action == "Attack")
+        {
+            player.Attack(enemy);
+        }
+        else if (action == "SpeedyAttack")
+        {
+            player.SpeedyAttack(enemy);
+        }
+        else if (action == "Observe")
+        {
+            player.Observe(enemy);
+        }
+        else if (action == "Intimidate")
+        {
+            player.Intimidate(enemy);
+        }
+    }
+
     void dealAttackOn(PlayerController _player)
     {
 
