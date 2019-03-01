@@ -96,6 +96,7 @@ public class BattleManager : MonoBehaviour
         {
             currentState = States.PLAYERS_TURN;
         }
+        turnNumber++;
         Debug.Log("Turn " + turnNumber);
     }
 

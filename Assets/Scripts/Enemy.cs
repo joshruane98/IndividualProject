@@ -23,14 +23,17 @@ public class Enemy : BattleCharacter
 
     public string chooseAction(int playerHealth, int turnNumber)
     {
-        string battleState = getStateOfBattle(playerHealth, turnNumber);
-
         IDictionary<string, float> actionWeights = new Dictionary<string, float>()
                                             {
-                                                {"attack",0.25f},
-                                                {"speedyAttack", 0.75f}
+                                                {"attack",0.0f},
+                                                {"speedyAttack", 0.0f},
+                                                {"massiveAttack", 0.0f},
+                                                {"stun", 0.0f},
+                                                {"intimidate", 0.0f}
                                             };
-
+        Debug.Log("Attack weight before: " + actionWeights["attack"]);
+        actionWeights = assignActionWeights(actionWeights, playerHealth, turnNumber);
+        Debug.Log("Attack weight after: " + actionWeights["attack"]);
 
         float rand = Random.Range(0.0f, 1.0f);
 
@@ -46,10 +49,9 @@ public class Enemy : BattleCharacter
         return "OUT OF RANGE";//If no action is returned - shouldn't reach here
     }
 
-    string getStateOfBattle(int playerHealth, int numberOfTurns)
+    IDictionary<string, float> assignActionWeights(IDictionary<string, float> _actionWeights, int _playerHealth, int _turnNumber)
     {
-        return "";
+        _actionWeights["attack"] = 0.5f;
+        return _actionWeights;
     }
-
-    
 }
