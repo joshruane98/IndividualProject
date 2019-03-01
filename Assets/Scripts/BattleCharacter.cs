@@ -13,6 +13,7 @@ public class BattleCharacter : MonoBehaviour
     [SerializeField] protected int defence; //current defence including any effects
     [SerializeField] protected int bravery;
     [SerializeField] protected int reflex;
+    protected bool isStunned;
 
     //---RETRIVE STATS---
     public int getMaxHealth()
@@ -112,6 +113,11 @@ public class BattleCharacter : MonoBehaviour
     }
 
     public void Intimidate(BattleCharacter target)
+    {
+
+    }
+
+    public void Stun(BattleCharacter target)
     {
 
     }

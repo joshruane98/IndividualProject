@@ -14,7 +14,10 @@ public class BattleManager : MonoBehaviour
 
     private States currentState;
 
+    int turnNumber;
+
     public Enemy enemy;
+    string enemyAction;
     public PlayerController player;
     public GameObject PlayerBattleMenu;
 
@@ -23,6 +26,7 @@ public class BattleManager : MonoBehaviour
     {
         player.inBattle = true;
         decideWhoStarts();
+        turnNumber = 1;
     }
 
     // Update is called once per frame
@@ -37,8 +41,21 @@ public class BattleManager : MonoBehaviour
                 break;
             case (States.ENEMYS_TURN):
                 PlayerBattleMenu.SetActive(false);
-                enemy.Attack(player);
-                Debug.Log("Enemy Attacked!");
+                enemyAction = enemy.chooseAction(player.getHealth(), turnNumber);
+                if (enemyAction == "attack")
+                {
+                    enemy.Attack(player);
+                    Debug.Log("Enemy Attacked!");
+                }
+                else if (enemyAction == "speedyAttack")
+                {
+                    enemy.SpeedyAttack(player);
+                    Debug.Log("Enemy Attacked Speedily!");
+                }
+                else
+                {
+                    Debug.Log(enemyAction);
+                }
                 switchTurns();
                 break;
             case (States.PLAYER_WIN):
@@ -79,6 +96,7 @@ public class BattleManager : MonoBehaviour
         {
             currentState = States.PLAYERS_TURN;
         }
+        Debug.Log("Turn " + turnNumber);
     }
 
     public void handlePlayerAction(string action)
