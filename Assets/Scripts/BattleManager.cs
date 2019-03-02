@@ -37,24 +37,37 @@ public class BattleManager : MonoBehaviour
         switch (currentState)
         {
             case (States.PLAYERS_TURN):
+                //checkIfStunned(player);
                 PlayerBattleMenu.SetActive(true);
                 break;
             case (States.ENEMYS_TURN):
                 PlayerBattleMenu.SetActive(false);
-                enemyAction = enemy.chooseAction(player.getHealth(), turnNumber);
-                if (enemyAction == "attack")
+                if (enemy.isStunned == false)
                 {
-                    enemy.Attack(player);
-                    Debug.Log("Enemy Attacked!");
-                }
-                else if (enemyAction == "speedyAttack")
-                {
-                    enemy.SpeedyAttack(player);
-                    Debug.Log("Enemy Attacked Speedily!");
+                    enemyAction = enemy.chooseAction(player.getHealth(), turnNumber);
+                    if (enemyAction == "attack")
+                    {
+                        enemy.Attack(player);
+                        Debug.Log("Enemy Attacked!");
+                    }
+                    else if (enemyAction == "speedyAttack")
+                    {
+                        enemy.SpeedyAttack(player);
+                        Debug.Log("Enemy Attacked Speedily!");
+                    }
+                    else
+                    {
+                        Debug.Log(enemyAction);
+                    }
                 }
                 else
                 {
-                    Debug.Log(enemyAction);
+                    Debug.Log("Enemy is stunned so cant act on turn " + turnNumber);
+                    enemy.turnsToMiss--;
+                    if (enemy.turnsToMiss == 0)
+                    {
+                        enemy.isStunned = false;
+                    }
                 }
                 switchTurns();
                 break;
@@ -111,9 +124,9 @@ public class BattleManager : MonoBehaviour
         {
             player.SpeedyAttack(enemy);
         }
-        else if (action == "Observe")
+        else if (action == "Stun")
         {
-            player.Observe(enemy);
+            player.Stun(enemy);
         }
         else if (action == "Intimidate")
         {
@@ -122,6 +135,14 @@ public class BattleManager : MonoBehaviour
         switchTurns();
     }
 
+    void checkIfStunned(BattleCharacter battleCharacter)
+    {
+        if (battleCharacter.isStunned)
+        {
+            Debug.Log("Stunned so cant act");
+            switchTurns();
+        }
+    }
     void checkForBattleEnd()
     {
         if (player.getHealth() <= 0 )
@@ -132,10 +153,5 @@ public class BattleManager : MonoBehaviour
         {
             currentState = States.PLAYER_WIN;
         }
-    }
-
-    void dealAttackOn(PlayerController _player)
-    {
-
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿//using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,7 +13,8 @@ public class BattleCharacter : MonoBehaviour
     [SerializeField] protected int defence; //current defence including any effects
     [SerializeField] protected int bravery;
     [SerializeField] protected int reflex;
-    protected bool isStunned;
+    public bool isStunned; //To miss turns in battle
+    public int turnsToMiss; //How many turns to miss when stunned
 
     //---RETRIVE STATS---
     public int getMaxHealth()
@@ -114,12 +115,29 @@ public class BattleCharacter : MonoBehaviour
 
     public void Intimidate(BattleCharacter target)
     {
-
+        if (getBravery() > target.getBravery())
+        {
+            target.DecreaseAttackPower((int)(target.getAttackPower() / 4));
+            target.DecreaseDefence((int)(target.getDefence() / 4));
+        }
+        else if (getBravery() == target.getBravery())
+        {
+            if ((Random.Range(0, 10) % 2) == 0)
+            {
+                target.DecreaseAttackPower((int)(target.getAttackPower() / 4));
+                target.DecreaseDefence((int)(target.getDefence() / 4));
+            }
+        }
+        else
+        {
+            Debug.Log("Intimidation failed");
+        }
     }
 
     public void Stun(BattleCharacter target)
     {
-
+        target.isStunned = true;
+        target.turnsToMiss = 1;
     }
 
     public void Observe(BattleCharacter target)

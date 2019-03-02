@@ -12,6 +12,7 @@ public class PlayerController : BattleCharacter {
 	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
 	void Awake () {
         inBattle = false;
+        isStunned = false;
         maxHealth = 50;
         health = maxHealth;
         baseAttackPower = 10;

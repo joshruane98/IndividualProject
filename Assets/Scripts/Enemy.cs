@@ -7,7 +7,7 @@ public class Enemy : BattleCharacter
     // Start is called before the first frame update
     void Start()
     {
-        
+        isStunned = false;
     }
 
     // Update is called once per frame
@@ -31,9 +31,9 @@ public class Enemy : BattleCharacter
                                                 {"stun", 0.0f},
                                                 {"intimidate", 0.0f}
                                             };
-        Debug.Log("Attack weight before: " + actionWeights["attack"]);
+        //Debug.Log("Attack weight before: " + actionWeights["attack"]);
         actionWeights = assignActionWeights(actionWeights, playerHealth, turnNumber);
-        Debug.Log("Attack weight after: " + actionWeights["attack"]);
+        //Debug.Log("Attack weight after: " + actionWeights["attack"]);
 
         float rand = Random.Range(0.0f, 1.0f);
 
@@ -52,6 +52,7 @@ public class Enemy : BattleCharacter
     IDictionary<string, float> assignActionWeights(IDictionary<string, float> _actionWeights, int _playerHealth, int _turnNumber)
     {
         _actionWeights["attack"] = 0.5f;
+        _actionWeights["speedyAttack"] = 0.5f;
         return _actionWeights;
     }
 }
