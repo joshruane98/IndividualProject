@@ -18,7 +18,10 @@ public class Enemy : BattleCharacter
 
     public void MassiveAttack(BattleCharacter target)
     {
-
+        target.LoseHealth((int)(getAttackPower() * 3));
+        //Enemy is exhausted from attack so misses next turn
+        isStunned = true;
+        turnsToMiss = 1;
     }
 
     public string chooseAction(int playerHealth, int turnNumber)
@@ -51,8 +54,9 @@ public class Enemy : BattleCharacter
 
     IDictionary<string, float> assignActionWeights(IDictionary<string, float> _actionWeights, int _playerHealth, int _turnNumber)
     {
-        _actionWeights["attack"] = 0.5f;
-        _actionWeights["speedyAttack"] = 0.5f;
+        //_actionWeights["attack"] = 0.5f;
+        //_actionWeights["speedyAttack"] = 0.5f;
+        _actionWeights["massiveAttack"] = 1.0f;
         return _actionWeights;
     }
 }

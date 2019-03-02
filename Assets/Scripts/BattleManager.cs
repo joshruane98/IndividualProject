@@ -55,6 +55,11 @@ public class BattleManager : MonoBehaviour
                         enemy.SpeedyAttack(player);
                         Debug.Log("Enemy Attacked Speedily!");
                     }
+                    else if (enemyAction == "massiveAttack")
+                    {
+                        enemy.MassiveAttack(player);
+                        Debug.Log("Enemy Attacked Massively!");
+                    }
                     else
                     {
                         Debug.Log(enemyAction);

@@ -951,6 +951,7 @@ MonoBehaviour:
   bravery: 0
   reflex: 0
   isStunned: 0
+  turnsToMiss: 0
   interactableObj: {fileID: 0}
   inBattle: 0
 --- !u!65 &1147635930
@@ -1590,9 +1591,10 @@ MonoBehaviour:
   attackPower: 10
   baseDefence: 0
   defence: 50
-  bravery: 50
+  bravery: 15
   reflex: 100
   isStunned: 0
+  turnsToMiss: 0
 --- !u!135 &2107159420
 SphereCollider:
   m_ObjectHideFlags: 0
