@@ -145,7 +145,7 @@ public class BattleCharacter : MonoBehaviour
 
     }
 
-    string generateDescription()
+    public string generateDescription()
     {
         int _attack = getAttackPower();
         int _defence = getDefence();
@@ -162,7 +162,7 @@ public class BattleCharacter : MonoBehaviour
         //ATTACK
         if (_attack > 0 && _attack <= 25)
         {
-            attackDescriptor = "like it couldn't gurt a fly";
+            attackDescriptor = "like it couldn't hurt a fly";
         }
         else if (_attack > 25 && _attack <= 50)
         {

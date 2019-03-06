@@ -27,6 +27,7 @@ public class BattleManager : MonoBehaviour
         player.inBattle = true;
         decideWhoStarts();
         turnNumber = 1;
+        Debug.Log(enemy.generateDescription());
     }
 
     // Update is called once per frame
@@ -38,13 +39,26 @@ public class BattleManager : MonoBehaviour
         {
             case (States.PLAYERS_TURN):
                 //checkIfStunned(player);
-                PlayerBattleMenu.SetActive(true);
+                if (player.isStunned == false)
+                {
+                    PlayerBattleMenu.SetActive(true);
+                }
+                else
+                {
+                    Debug.Log("You are stunned so cant act on turn " + turnNumber);
+                    player.turnsToMiss--;
+                    if (player.turnsToMiss == 0)
+                    {
+                        player.isStunned = false;
+                    }
+                    switchTurns();
+                }
                 break;
             case (States.ENEMYS_TURN):
                 PlayerBattleMenu.SetActive(false);
                 if (enemy.isStunned == false)
                 {
-                    enemyAction = enemy.chooseAction(player.getHealth(), turnNumber);
+                    enemyAction = enemy.chooseAction(player.getHealth(), player.generateDescription(), turnNumber);
                     if (enemyAction == "attack")
                     {
                         enemy.Attack(player);
@@ -59,6 +73,16 @@ public class BattleManager : MonoBehaviour
                     {
                         enemy.MassiveAttack(player);
                         Debug.Log("Enemy Attacked Massively!");
+                    }
+                    else if (enemyAction == "stun")
+                    {
+                        enemy.Stun(player);
+                        Debug.Log("The enemy stunned you!");
+                    }
+                    else if (enemyAction == "intimidate")
+                    {
+                        enemy.Intimidate(player);
+                        Debug.Log("The enemy intimidated you - your attack and defence fell");
                     }
                     else
                     {
