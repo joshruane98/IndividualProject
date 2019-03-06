@@ -1585,14 +1585,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc02263569d031b428b30a934f6cad61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 50
   health: 50
   baseAttackPower: 0
-  attackPower: 10
+  attackPower: 15
   baseDefence: 0
   defence: 50
-  bravery: 15
-  reflex: 100
+  bravery: 145
+  reflex: 199
   isStunned: 0
   turnsToMiss: 0
 --- !u!135 &2107159420
