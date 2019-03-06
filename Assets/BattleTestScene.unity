@@ -1592,7 +1592,7 @@ MonoBehaviour:
   baseDefence: 0
   defence: 50
   bravery: 145
-  reflex: 199
+  reflex: 90
   isStunned: 0
   turnsToMiss: 0
 --- !u!135 &2107159420

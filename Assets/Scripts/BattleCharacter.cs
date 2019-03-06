@@ -110,7 +110,14 @@ public class BattleCharacter : MonoBehaviour
 
     public void SpeedyAttack(BattleCharacter target)
     {
-        target.LoseHealth((int)(getAttackPower() * 1.5));
+        if (getReflex() > (target.getReflex() + (target.getReflex() * 0.1)))
+        {
+            target.LoseHealth((int)(getAttackPower() * 1.5));
+        }
+        else
+        {
+            Debug.Log("Speedy attack failed");
+        }
     }
 
     public void Intimidate(BattleCharacter target)

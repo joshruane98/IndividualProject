@@ -75,6 +75,16 @@ public class Enemy : BattleCharacter
             _actionWeights["speedyAttack"] = remainingWeight * 0.2f;
             _actionWeights["massiveAttack"] = remainingWeight * 0.05f;
             _actionWeights["stun"] = remainingWeight * 0.1f;
+            return _actionWeights;
+        }
+        else if (getHealth() <= getMaxHealth() * 0.2)
+        {
+            _actionWeights["attack"] = 0.15f;
+            _actionWeights["speedyAttack"] = 0.15f;
+            _actionWeights["massiveAttack"] = 0.65f;
+            _actionWeights["stun"] = 0.025f;
+            _actionWeights["intimidate"] = 0.025f;
+            return _actionWeights;
         }
         else
         {
@@ -83,7 +93,7 @@ public class Enemy : BattleCharacter
             _actionWeights["massiveAttack"] = 0.05f;
             _actionWeights["stun"] = 0.1f;
             _actionWeights["intimidate"] = 0.1f;
+            return _actionWeights;
         }
-        return _actionWeights;
     }
 }
