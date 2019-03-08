@@ -9,6 +9,8 @@ public class PlayerController : BattleCharacter {
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
     public bool inBattle; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
+    Animator anim;
+
 	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
 	void Awake () {
         inBattle = false;
@@ -24,6 +26,8 @@ public class PlayerController : BattleCharacter {
         XP = 0;
         level = 1;
         moneyBalance = 0;
+
+        anim = GetComponent<Animator>();
     }
 	
 	// Update is called once per frame
@@ -40,40 +44,53 @@ public class PlayerController : BattleCharacter {
             if (Input.GetKey("up"))
             {
                 goForward();
+                anim.SetBool("IsWalking", true);
             }
             else if (Input.GetKey("down"))
             {
                 goBack();
+                anim.SetBool("IsWalking", true);
             }
             else if (Input.GetKey("left"))
             {
                 goLeft();
+                anim.SetBool("IsWalking", true);
             }
             else if (Input.GetKey("right"))
             {
                 goRight();
+                anim.SetBool("IsWalking", true);
+            }
+            else
+            {
+                anim.SetBool("IsWalking", false);
             }
         }
     }
 
+    void goInDirection(string direction)
+    {
+        //TO COMPLETE
+    }
+
     void goForward()
     {
-        transform.Translate(new Vector3(0, 0, 1) * Time.deltaTime);
+        transform.Translate(new Vector3(0, 0, 2) * Time.deltaTime);
     }
 
     void goBack()
     {
-        transform.Translate(new Vector3(0, 0, -1) * Time.deltaTime);
+        transform.Translate(new Vector3(0, 0, -2) * Time.deltaTime);
     }
 
     void goLeft()
     {
-        transform.Translate(new Vector3(-1, 0, 0) * Time.deltaTime);
+        transform.Translate(new Vector3(-2, 0, 0) * Time.deltaTime);
     }
 
     void goRight()
     {
-        transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime);
+        transform.Translate(new Vector3(2, 0, 0) * Time.deltaTime);
     }
 
     //HEALTH FUNCTIONS
