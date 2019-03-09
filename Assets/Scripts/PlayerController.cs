@@ -43,22 +43,22 @@ public class PlayerController : BattleCharacter {
         {
             if (Input.GetKey("up"))
             {
-                goForward();
+                goInDirection("forward");
                 anim.SetBool("IsWalking", true);
             }
             else if (Input.GetKey("down"))
             {
-                goBack();
+                goInDirection("backward");
                 anim.SetBool("IsWalking", true);
             }
             else if (Input.GetKey("left"))
             {
-                goLeft();
+                goInDirection("left");
                 anim.SetBool("IsWalking", true);
             }
             else if (Input.GetKey("right"))
             {
-                goRight();
+                goInDirection("right");
                 anim.SetBool("IsWalking", true);
             }
             else
@@ -70,27 +70,23 @@ public class PlayerController : BattleCharacter {
 
     void goInDirection(string direction)
     {
-        //TO COMPLETE
-    }
-
-    void goForward()
-    {
+        if (direction == "forward")
+        {
+            transform.localEulerAngles = new Vector3(0, 0, 0);
+        }
+        else if (direction == "backward")
+        {
+            transform.localEulerAngles = new Vector3(0, 180, 0);
+        }
+        else if (direction == "left")
+        {
+            transform.localEulerAngles = new Vector3(0, 270, 0);
+        }
+        else if (direction == "right")
+        {
+            transform.localEulerAngles = new Vector3(0, 90, 0);
+        }
         transform.Translate(new Vector3(0, 0, 2) * Time.deltaTime);
-    }
-
-    void goBack()
-    {
-        transform.Translate(new Vector3(0, 0, -2) * Time.deltaTime);
-    }
-
-    void goLeft()
-    {
-        transform.Translate(new Vector3(-2, 0, 0) * Time.deltaTime);
-    }
-
-    void goRight()
-    {
-        transform.Translate(new Vector3(2, 0, 0) * Time.deltaTime);
     }
 
     //HEALTH FUNCTIONS
