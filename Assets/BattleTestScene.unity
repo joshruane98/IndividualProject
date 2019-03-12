@@ -1263,7 +1263,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -21.3, y: 6.7}
-  m_SizeDelta: {x: 300, y: 30}
+  m_SizeDelta: {x: 300, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1690526652
 GameObject:
@@ -1672,8 +1672,8 @@ MonoBehaviour:
   attackPower: 15
   baseDefence: 0
   defence: 50
-  bravery: 145
-  reflex: 90
+  bravery: 14
+  reflex: 110
   isStunned: 0
   turnsToMiss: 0
 --- !u!135 &2107159420

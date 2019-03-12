@@ -74,8 +74,15 @@ public class BattleManager : MonoBehaviour
                     }
                     else if (enemyAction == "speedyAttack")
                     {
-                        enemy.SpeedyAttack(player);
-                        battleCommentary.text = "The enemy attacked you speedily!";
+                        bool speedyAttackSucessful = enemy.SpeedyAttack(player);
+                        if (speedyAttackSucessful)
+                        {
+                            battleCommentary.text = "The enemy attacked you speedily!";
+                        }
+                        else if (!speedyAttackSucessful)
+                        {
+                            battleCommentary.text = "The enemy attacked you speedily...but the attack was unsucessful!";
+                        }
                         Debug.Log("Enemy Attacked Speedily!");
                     }
                     else if (enemyAction == "massiveAttack")
@@ -92,8 +99,15 @@ public class BattleManager : MonoBehaviour
                     }
                     else if (enemyAction == "intimidate")
                     {
-                        enemy.Intimidate(player);
-                        battleCommentary.text = "The enemy intimidated you!";
+                        bool intimidationSucessful = enemy.Intimidate(player);
+                        if (intimidationSucessful)
+                        {
+                            battleCommentary.text = "The enemy intimidated you!";
+                        }
+                        else if (!intimidationSucessful)
+                        {
+                            battleCommentary.text = "The enemy couldn't intimidate you!";
+                        }
                         Debug.Log("The enemy intimidated you - your attack and defence fell");
                     }
                     else
@@ -145,6 +159,10 @@ public class BattleManager : MonoBehaviour
 
     void endTurn()
     {
+        if (currentState == States.PLAYERS_TURN)
+        {
+            PlayerBattleMenu.SetActive(false);
+        }
         previousState = currentState;
         currentState = States.WAIT_BETWEEN_TURNS;
         StartCoroutine(Wait());
@@ -175,8 +193,15 @@ public class BattleManager : MonoBehaviour
         }
         else if (action == "SpeedyAttack")
         {
-            player.SpeedyAttack(enemy);
-            battleCommentary.text = "You attacked the enemy speedily!";
+            bool speedyAttackSucessful = player.SpeedyAttack(enemy);
+            if (speedyAttackSucessful)
+            {
+                battleCommentary.text = "You attacked the enemy speedily!";
+            }
+            else if (!speedyAttackSucessful)
+            {
+                battleCommentary.text = "You attacked the enemy speedily...but the attack failed!";
+            }
         }
         else if (action == "Stun")
         {
@@ -185,8 +210,16 @@ public class BattleManager : MonoBehaviour
         }
         else if (action == "Intimidate")
         {
-            player.Intimidate(enemy);
-            battleCommentary.text = "You intimidated the enemy!";
+            bool intimidationSucessful = player.Intimidate(enemy);
+            if (intimidationSucessful)
+            {
+                battleCommentary.text = "You intimidated the enemy!";
+            }
+            else if (!intimidationSucessful)
+            {
+                battleCommentary.text = "You couldn't intimidate the enemy!";
+            }
+            
         }
         endTurn();
     }

@@ -108,24 +108,27 @@ public class BattleCharacter : MonoBehaviour
         target.LoseHealth(getAttackPower());
     }
 
-    public void SpeedyAttack(BattleCharacter target)
+    public bool SpeedyAttack(BattleCharacter target)
     {
         if (getReflex() > (target.getReflex() + (target.getReflex() * 0.1)))
         {
             target.LoseHealth((int)(getAttackPower() * 1.5));
+            return true;
         }
         else
         {
             Debug.Log("Speedy attack failed");
+            return false;
         }
     }
 
-    public void Intimidate(BattleCharacter target)
+    public bool Intimidate(BattleCharacter target)
     {
         if (getBravery() > target.getBravery())
         {
             target.DecreaseAttackPower((int)(target.getAttackPower() / 4));
             target.DecreaseDefence((int)(target.getDefence() / 4));
+            return true;
         }
         else if (getBravery() == target.getBravery())
         {
@@ -133,11 +136,15 @@ public class BattleCharacter : MonoBehaviour
             {
                 target.DecreaseAttackPower((int)(target.getAttackPower() / 4));
                 target.DecreaseDefence((int)(target.getDefence() / 4));
+                return true;
             }
+            Debug.Log("Intimidation failed");
+            return false;
         }
         else
         {
             Debug.Log("Intimidation failed");
+            return false;
         }
     }
 
