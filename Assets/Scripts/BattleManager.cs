@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class BattleManager : MonoBehaviour
     string enemyAction;
     public PlayerController player;
     public GameObject PlayerBattleMenu;
+    public Text battleCommentary;
 
     // Start is called before the first frame update
     void Start()
@@ -41,11 +43,13 @@ public class BattleManager : MonoBehaviour
                 //checkIfStunned(player);
                 if (player.isStunned == false)
                 {
+                    battleCommentary.text = "Player's turn!";
                     PlayerBattleMenu.SetActive(true);
                 }
                 else
                 {
                     Debug.Log("You are stunned so cant act on turn " + turnNumber);
+                    battleCommentary.text = "Player is stunned so misses this turn";
                     player.turnsToMiss--;
                     if (player.turnsToMiss == 0)
                     {
@@ -62,26 +66,31 @@ public class BattleManager : MonoBehaviour
                     if (enemyAction == "attack")
                     {
                         enemy.Attack(player);
+                        battleCommentary.text = "The enemy attacked you!";
                         Debug.Log("Enemy Attacked!");
                     }
                     else if (enemyAction == "speedyAttack")
                     {
                         enemy.SpeedyAttack(player);
+                        battleCommentary.text = "The enemy attacked you speedily!";
                         Debug.Log("Enemy Attacked Speedily!");
                     }
                     else if (enemyAction == "massiveAttack")
                     {
                         enemy.MassiveAttack(player);
+                        battleCommentary.text = "The enemy attacked you massively!";
                         Debug.Log("Enemy Attacked Massively!");
                     }
                     else if (enemyAction == "stun")
                     {
                         enemy.Stun(player);
+                        battleCommentary.text = "The enemy stunned you!";
                         Debug.Log("The enemy stunned you!");
                     }
                     else if (enemyAction == "intimidate")
                     {
                         enemy.Intimidate(player);
+                        battleCommentary.text = "The enemy intimidated you!";
                         Debug.Log("The enemy intimidated you - your attack and defence fell");
                     }
                     else
@@ -92,6 +101,7 @@ public class BattleManager : MonoBehaviour
                 else
                 {
                     Debug.Log("Enemy is stunned so cant act on turn " + turnNumber);
+                    battleCommentary.text = "Enemy is stunned so misses this turn";
                     enemy.turnsToMiss--;
                     if (enemy.turnsToMiss == 0)
                     {
@@ -130,6 +140,7 @@ public class BattleManager : MonoBehaviour
 
     void switchTurns()
     {
+        battleCommentary.text = "";
         if (currentState == States.PLAYERS_TURN)
         {
             currentState = States.ENEMYS_TURN;
@@ -148,18 +159,22 @@ public class BattleManager : MonoBehaviour
         if (action == "Attack")
         {
             player.Attack(enemy);
+            battleCommentary.text = "You attacked the enemy!";
         }
         else if (action == "SpeedyAttack")
         {
             player.SpeedyAttack(enemy);
+            battleCommentary.text = "You attacked the enemy speedily!";
         }
         else if (action == "Stun")
         {
             player.Stun(enemy);
+            battleCommentary.text = "You stunned the enemy!";
         }
         else if (action == "Intimidate")
         {
             player.Intimidate(enemy);
+            battleCommentary.text = "You intimidated the enemy!";
         }
         switchTurns();
     }
@@ -169,6 +184,7 @@ public class BattleManager : MonoBehaviour
         if (battleCharacter.isStunned)
         {
             Debug.Log("Stunned so cant act");
+            battleCommentary.text = "Stunned so misses a turn!";
             switchTurns();
         }
     }
