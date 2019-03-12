@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
+    //REFERENCES TO BATTLE CHARACTERS
+    public PlayerController player;
+    public Enemy enemy;
+
+    //STATE VARIABLES
     public enum States
     {
         PLAYERS_TURN,
@@ -13,17 +18,18 @@ public class BattleManager : MonoBehaviour
         PLAYER_WIN,
         PLAYER_LOSE
     }
-
     private States currentState;
     private States previousState;
 
     int turnNumber;
 
-    public Enemy enemy;
     string enemyAction;
-    public PlayerController player;
+
+    //UI
     public GameObject PlayerBattleMenu;
     public Text battleCommentary;
+    public Text enemyHealthUI;
+    public Text playerHealthUI;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +38,8 @@ public class BattleManager : MonoBehaviour
         decideWhoStarts();
         turnNumber = 1;
         Debug.Log(enemy.generateDescription());
+        playerHealthUI.text = player.getHealth().ToString();
+        enemyHealthUI.text = enemy.getHealth().ToString();
     }
 
     // Update is called once per frame
@@ -159,6 +167,8 @@ public class BattleManager : MonoBehaviour
 
     void endTurn()
     {
+        playerHealthUI.text = player.getHealth().ToString();
+        enemyHealthUI.text = enemy.getHealth().ToString();
         if (currentState == States.PLAYERS_TURN)
         {
             PlayerBattleMenu.SetActive(false);

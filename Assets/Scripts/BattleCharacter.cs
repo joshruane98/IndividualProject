@@ -68,6 +68,10 @@ public class BattleCharacter : MonoBehaviour
     public void LoseHealth(int amount)
     {
         health -= amount;
+        if (health < 0)
+        {
+            health = 0;
+        }
     }
 
     //Attack
