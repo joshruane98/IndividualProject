@@ -9,11 +9,13 @@ public class BattleManager : MonoBehaviour
     {
         PLAYERS_TURN,
         ENEMYS_TURN,
+        WAIT_BETWEEN_TURNS,
         PLAYER_WIN,
         PLAYER_LOSE
     }
 
     private States currentState;
+    private States previousState;
 
     int turnNumber;
 
@@ -55,13 +57,14 @@ public class BattleManager : MonoBehaviour
                     {
                         player.isStunned = false;
                     }
-                    switchTurns();
+                    endTurn();
                 }
                 break;
             case (States.ENEMYS_TURN):
                 PlayerBattleMenu.SetActive(false);
                 if (enemy.isStunned == false)
                 {
+                    battleCommentary.text = "Enemy's turn!";
                     enemyAction = enemy.chooseAction(player.getHealth(), player.generateDescription(), turnNumber);
                     if (enemyAction == "attack")
                     {
@@ -108,7 +111,9 @@ public class BattleManager : MonoBehaviour
                         enemy.isStunned = false;
                     }
                 }
-                switchTurns();
+                endTurn();
+                break;
+            case (States.WAIT_BETWEEN_TURNS):
                 break;
             case (States.PLAYER_WIN):
                 break;
@@ -138,14 +143,21 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    void endTurn()
+    {
+        previousState = currentState;
+        currentState = States.WAIT_BETWEEN_TURNS;
+        StartCoroutine(Wait());
+    }
+    
     void switchTurns()
     {
         battleCommentary.text = "";
-        if (currentState == States.PLAYERS_TURN)
+        if (previousState == States.PLAYERS_TURN)
         {
             currentState = States.ENEMYS_TURN;
         }
-        else if (currentState == States.ENEMYS_TURN)
+        else if (previousState == States.ENEMYS_TURN)
         {
             currentState = States.PLAYERS_TURN;
         }
@@ -176,7 +188,7 @@ public class BattleManager : MonoBehaviour
             player.Intimidate(enemy);
             battleCommentary.text = "You intimidated the enemy!";
         }
-        switchTurns();
+        endTurn();
     }
 
     void checkIfStunned(BattleCharacter battleCharacter)
@@ -185,7 +197,7 @@ public class BattleManager : MonoBehaviour
         {
             Debug.Log("Stunned so cant act");
             battleCommentary.text = "Stunned so misses a turn!";
-            switchTurns();
+            endTurn();
         }
     }
     void checkForBattleEnd()
@@ -198,5 +210,12 @@ public class BattleManager : MonoBehaviour
         {
             currentState = States.PLAYER_WIN;
         }
+    }
+
+    IEnumerator Wait()
+    {
+        Debug.Log("Waiting.........");
+        yield return new WaitForSeconds(3);
+        switchTurns();
     }
 }
