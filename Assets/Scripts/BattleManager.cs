@@ -34,7 +34,9 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = (PlayerController)GameObject.Find("Player").GetComponent(typeof(PlayerController));
         player.inBattle = true;
+        player.setBattlePosition();
         decideWhoStarts();
         turnNumber = 1;
         Debug.Log(enemy.generateDescription());

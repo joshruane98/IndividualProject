@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : BattleCharacter {
     private int XP;
@@ -11,8 +12,17 @@ public class PlayerController : BattleCharacter {
 
     Animator anim;
 
+    static PlayerController onlyPlayerController; //Used for checking to ensure one instance of PlayerController persists across all scenes.
+
 	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
 	void Awake () {
+        if (onlyPlayerController != null)
+        {
+            Destroy(this.gameObject);
+        }
+        onlyPlayerController = this;
+        GameObject.DontDestroyOnLoad(this.gameObject);
+
         inBattle = false;
         isStunned = false;
         maxHealth = 50;
@@ -68,6 +78,13 @@ public class PlayerController : BattleCharacter {
         }
     }
 
+    public void setBattlePosition()
+    {
+        transform.position = new Vector3(-0.52f, -1.90f, -0.08f);
+        transform.Translate(new Vector3(0, 0, 0) * Time.deltaTime);
+        anim.SetBool("IsWalking", false);
+    }
+
     void goInDirection(string direction)
     {
         if (direction == "forward")
@@ -113,6 +130,7 @@ public class PlayerController : BattleCharacter {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Player collided with enemy");
+            SceneManager.LoadScene(1); //Just load scene 1 for now
         }
     }
 
