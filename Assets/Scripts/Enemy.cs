@@ -5,9 +5,10 @@ using UnityEngine;
 public class Enemy : BattleCharacter
 {
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         isStunned = false;
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
