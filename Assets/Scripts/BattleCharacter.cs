@@ -16,6 +16,8 @@ public class BattleCharacter : MonoBehaviour
     public bool isStunned; //To miss turns in battle
     public int turnsToMiss; //How many turns to miss when stunned
 
+    protected Animator anim;
+
     //---RETRIVE STATS---
     public int getMaxHealth()
     {
@@ -110,6 +112,7 @@ public class BattleCharacter : MonoBehaviour
     public void Attack(BattleCharacter target)
     {
         target.LoseHealth(getAttackPower());
+        anim.Play("Attack");
     }
 
     public bool SpeedyAttack(BattleCharacter target)

@@ -10,8 +10,6 @@ public class PlayerController : BattleCharacter {
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
     public bool inBattle; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
-    Animator anim;
-
     static PlayerController onlyPlayerController; //Used for checking to ensure one instance of PlayerController persists across all scenes.
 
 	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
