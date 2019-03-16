@@ -145,6 +145,8 @@ public class BattleManager : MonoBehaviour
                 endTurn();
                 break;
             case (States.PLAYER_LOSE):
+                battleCommentary.text = "The enemy defeated you! You lost the battle.";
+                endTurn();
                 break;
         }
     }
@@ -264,9 +266,8 @@ public class BattleManager : MonoBehaviour
     {
         Debug.Log("Waiting.........");
         
-        if (previousState == States.PLAYER_WIN)
+        if (previousState == States.PLAYER_WIN || previousState == States.PLAYER_LOSE)
         {
-            Debug.Log("Player won the battle!!");
             yield return new WaitForSeconds(3);
             SceneManager.LoadScene(0); //Just load scene 0 for now
         }
