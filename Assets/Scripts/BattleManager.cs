@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -140,6 +141,8 @@ public class BattleManager : MonoBehaviour
             case (States.WAIT_BETWEEN_TURNS):
                 break;
             case (States.PLAYER_WIN):
+                battleCommentary.text = "You defeated the enemy and won the battle!";
+                endTurn();
                 break;
             case (States.PLAYER_LOSE):
                 break;
@@ -260,7 +263,17 @@ public class BattleManager : MonoBehaviour
     IEnumerator Wait()
     {
         Debug.Log("Waiting.........");
-        yield return new WaitForSeconds(3);
-        switchTurns();
+        
+        if (previousState == States.PLAYER_WIN)
+        {
+            Debug.Log("Player won the battle!!");
+            yield return new WaitForSeconds(3);
+            SceneManager.LoadScene(0); //Just load scene 0 for now
+        }
+        else
+        {
+            yield return new WaitForSeconds(3);
+            switchTurns();
+        }
     }
 }
