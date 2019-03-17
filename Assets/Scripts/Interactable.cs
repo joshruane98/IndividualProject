@@ -14,5 +14,6 @@ public class Interactable : MonoBehaviour {
     public virtual void interactAction()
     {
         Debug.Log("Interacted with");
+        this.gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
     }
 }

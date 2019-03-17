@@ -31,6 +31,7 @@ public class BattleManager : MonoBehaviour
     public Text battleCommentary;
     public Text enemyHealthUI;
     public Text playerHealthUI;
+    public Text enemyDescriptionUI_TEMP;
 
     // Start is called before the first frame update
     void Start()
@@ -39,8 +40,9 @@ public class BattleManager : MonoBehaviour
         player.inBattle = true;
         player.setBattlePosition();
         decideWhoStarts();
-        turnNumber = 1;
+        turnNumber = 0;
         Debug.Log(enemy.generateDescription());
+        enemyDescriptionUI_TEMP.text = enemy.generateDescription();
         playerHealthUI.text = player.getHealth().ToString();
         enemyHealthUI.text = enemy.getHealth().ToString();
     }
@@ -230,7 +232,7 @@ public class BattleManager : MonoBehaviour
             bool intimidationSucessful = player.Intimidate(enemy);
             if (intimidationSucessful)
             {
-                battleCommentary.text = "You intimidated the enemy!";
+                battleCommentary.text = "You intimidated the enemy - its attack and defence fell!";
             }
             else if (!intimidationSucessful)
             {

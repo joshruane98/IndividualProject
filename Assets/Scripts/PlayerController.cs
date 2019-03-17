@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : BattleCharacter {
     private int XP;
@@ -11,6 +12,9 @@ public class PlayerController : BattleCharacter {
     public bool inBattle; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
     static PlayerController onlyPlayerController; //Used for checking to ensure one instance of PlayerController persists across all scenes.
+
+    //UI
+    public GameObject interactTextUI;
 
 	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
 	void Awake () {
@@ -143,8 +147,10 @@ public class PlayerController : BattleCharacter {
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             Debug.Log("Press E to interact.");
+            interactTextUI.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
+                //interactableObj.interactAction();
                 Debug.Log("Interacted");
             }
         }
@@ -152,6 +158,7 @@ public class PlayerController : BattleCharacter {
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             Debug.Log("Did not Hit");
+            interactTextUI.SetActive(false);
         }
     }
 }
