@@ -14,13 +14,18 @@ public class PlayerController : BattleCharacter {
     static PlayerController onlyPlayerController; //Used for checking to ensure one instance of PlayerController persists across all scenes.
 
     //UI
-    public GameObject interactTextUI;
+    //public GameObject interactTextUI;
 
 	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
 	void Awake () {
         if (onlyPlayerController != null)
         {
+            Debug.Log("THERES ALREADY A PLAYER");
             Destroy(this.gameObject);
+        }
+        else if (onlyPlayerController == null)
+        {
+            Debug.Log("I'M THE ONLY PLAYER");
         }
         onlyPlayerController = this;
         GameObject.DontDestroyOnLoad(this.gameObject);
@@ -132,7 +137,7 @@ public class PlayerController : BattleCharacter {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Player collided with enemy");
-            SceneManager.LoadScene(1); //Just load scene 1 for now
+            SceneManager.LoadScene(2); //Just load scene 1 for now
         }
     }
 
@@ -147,7 +152,7 @@ public class PlayerController : BattleCharacter {
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             Debug.Log("Press E to interact.");
-            interactTextUI.SetActive(true);
+            //interactTextUI.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //interactableObj.interactAction();
@@ -157,8 +162,11 @@ public class PlayerController : BattleCharacter {
         else
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
-            Debug.Log("Did not Hit");
-            interactTextUI.SetActive(false);
+            //Debug.Log("Did not Hit");
+            if (!inBattle)
+            {
+                //interactTextUI.SetActive(false);
+            }
         }
     }
 }

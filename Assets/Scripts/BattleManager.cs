@@ -271,7 +271,9 @@ public class BattleManager : MonoBehaviour
         if (previousState == States.PLAYER_WIN || previousState == States.PLAYER_LOSE)
         {
             yield return new WaitForSeconds(3);
-            SceneManager.LoadScene(0); //Just load scene 0 for now
+            player.inBattle = false;
+            Debug.Log("LEAVING BATTLE");
+            SceneManager.LoadScene(1); //Just load scene 0 for now
         }
         else
         {
