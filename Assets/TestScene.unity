@@ -836,12 +836,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 0
-  health: 0
+  health: 40
   baseAttackPower: 0
-  attackPower: 0
+  attackPower: 10
   baseDefence: 0
-  defence: 0
-  bravery: 0
-  reflex: 0
+  defence: 50
+  bravery: 15
+  reflex: 15
   isStunned: 0
   turnsToMiss: 0

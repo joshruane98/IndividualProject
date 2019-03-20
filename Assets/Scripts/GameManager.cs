@@ -5,19 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    static GameManager gameManagerInst;
-    
+    public static GameManager gameManagerInst;
+    PlayerController playerInstance;
+    BattleManager battleManager;
+
+    IDictionary<string, int> enemyStats;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        setupGM();
+        SetupGM();
+        playerInstance = PlayerController.onlyPlayerController; //Store reference to instance of player.
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             SceneManager.LoadScene(1);
         }
     }
 
-    void setupGM()
+    void SetupGM()
     {
         //Check if there is already an Instance of Game Manager
         if (gameManagerInst != null)
@@ -27,5 +32,34 @@ public class GameManager : MonoBehaviour
         gameManagerInst = this;
         //Ensure Game Manager persists through all scenes
         GameObject.DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void LoadBattle(IDictionary<string, int> _enemyStats)
+    {
+        SceneManager.LoadScene(2);
+        enemyStats = _enemyStats;
+        /*
+        SceneManager.sceneLoaded += ;
+        BattleManager battleManager = (BattleManager)GameObject.Find("BattleManagerObject").GetComponent(typeof(BattleManager));
+        if (SceneManager.GetSceneByBuildIndex(2).isLoaded)
+        {
+            if (battleManager != null)
+            {
+                Debug.Log("Theres a battle manager");
+            }
+        }
+        battleManager.assignEnemyStats(enemyStats);
+        */
+    }
+
+    public IDictionary<string, int> SendEnemyStats()
+    {
+        return enemyStats;
+    }
+
+    public void LoadOverwold()
+    {
+        enemyStats = null;
+        SceneManager.LoadScene(1);
     }
 }

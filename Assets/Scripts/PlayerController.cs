@@ -11,7 +11,8 @@ public class PlayerController : BattleCharacter {
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
     public bool inBattle; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
-    static PlayerController onlyPlayerController; //Used for checking to ensure one instance of PlayerController persists across all scenes.
+    public static PlayerController onlyPlayerController; //Used for checking to ensure one instance of PlayerController persists across all scenes.
+    GameManager gameManager;
 
     //UI
     //public GameObject interactTextUI;
@@ -46,9 +47,14 @@ public class PlayerController : BattleCharacter {
 
         anim = GetComponent<Animator>();
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void Start()
+    {
+        gameManager = GameManager.gameManagerInst; //Called in start as GameManager is instantiated at awake so this ensures a reference can be created.
+    }
+
+    // Update is called once per frame
+    void Update () {
         movePlayerOnInput();
         checkForNearbyInteractables();
     }
@@ -137,7 +143,22 @@ public class PlayerController : BattleCharacter {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Player collided with enemy");
-            SceneManager.LoadScene(2); //Just load scene 1 for now
+            Enemy _enemy = (Enemy)collision.gameObject.GetComponent(typeof(Enemy));
+            //Store enemy stats and load battle - these stats will be assigned to the enemy in battle.
+            IDictionary<string, int> enemyStats = new Dictionary<string, int>()
+                                            {
+                                                {"health", 0},
+                                                {"attack", 0},
+                                                {"defence", 0},
+                                                {"bravery", 0},
+                                                {"reflex", 0}
+                                            };
+            enemyStats["health"] = _enemy.getHealth();
+            enemyStats["attack"] = _enemy.getAttackPower();
+            enemyStats["defence"] = _enemy.getDefence();
+            enemyStats["bravery"] = _enemy.getBravery();
+            enemyStats["reflex"] = _enemy.getReflex();
+            gameManager.LoadBattle(enemyStats);
         }
     }
 

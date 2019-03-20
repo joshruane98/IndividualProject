@@ -10,6 +10,8 @@ public class BattleManager : MonoBehaviour
     public PlayerController player;
     public Enemy enemy;
 
+    GameManager gameManager;
+
     //STATE VARIABLES
     public enum States
     {
@@ -36,6 +38,10 @@ public class BattleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameManager.gameManagerInst;
+
+        assignEnemyStats();
+
         player = (PlayerController)GameObject.Find("Player").GetComponent(typeof(PlayerController));
         player.inBattle = true;
         player.setBattlePosition();
@@ -174,6 +180,16 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public void assignEnemyStats()
+    {
+        IDictionary<string, int> enemyStats = gameManager.SendEnemyStats();
+        enemy.setHealth(enemyStats["health"]);
+        enemy.setAttackPower(enemyStats["attack"]);
+        enemy.setDefence(enemyStats["defence"]);
+        enemy.setBravery(enemyStats["bravery"]);
+        enemy.setReflex(enemyStats["reflex"]);
+    }
+
     void endTurn()
     {
         playerHealthUI.text = player.getHealth().ToString();
@@ -273,7 +289,7 @@ public class BattleManager : MonoBehaviour
             yield return new WaitForSeconds(3);
             player.inBattle = false;
             Debug.Log("LEAVING BATTLE");
-            SceneManager.LoadScene(1); //Just load scene 0 for now
+            gameManager.LoadOverwold();
         }
         else
         {

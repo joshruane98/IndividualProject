@@ -17,7 +17,31 @@ public class BattleCharacter : MonoBehaviour
     public int turnsToMiss; //How many turns to miss when stunned
 
     protected Animator anim;
+    //---SET STATS---
+    public void setHealth(int amount)
+    {
+        health = amount;
+    }
 
+    public void setAttackPower(int amount)
+    {
+        attackPower = amount;
+    }
+
+    public void setDefence(int amount)
+    {
+        defence = amount;
+    }
+
+    public void setBravery(int amount)
+    {
+        bravery = amount;
+    }
+
+    public void setReflex(int amount)
+    {
+        reflex = amount;
+    }
     //---RETRIVE STATS---
     public int getMaxHealth()
     {
