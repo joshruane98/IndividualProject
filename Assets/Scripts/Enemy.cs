@@ -19,7 +19,9 @@ public class Enemy : BattleCharacter
 
     public void MassiveAttack(BattleCharacter target)
     {
-        target.LoseHealth((int)(getAttackPower() * 3));
+        float attackPwr = getAttackPower();
+        int damage = (int)(attackPwr - (attackPwr * ((float)target.getDefence() / 200.0f))); //200 because 200 is max value.
+        target.LoseHealth((int)(damage * 3));
         //Enemy is exhausted from attack so misses next turn
         isStunned = true;
         turnsToMiss = 1;

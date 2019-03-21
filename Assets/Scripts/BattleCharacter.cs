@@ -135,15 +135,24 @@ public class BattleCharacter : MonoBehaviour
     //---BATTLE ACTIONS---
     public void Attack(BattleCharacter target)
     {
-        target.LoseHealth(getAttackPower());
+        float attackPwr = getAttackPower();
+        int damage = (int)(attackPwr - (attackPwr * ((float)target.getDefence() / 200.0f))); //200 because 200 is max value.
+        Debug.Log("Damage is: " + damage);
+        if (damage <= 0)
+        {
+            damage = 1;
+        }
+        target.LoseHealth(damage);
         anim.Play("Attack");
     }
 
     public bool SpeedyAttack(BattleCharacter target)
     {
+        float attackPwr = getAttackPower();
+        int damage = (int)(attackPwr - (attackPwr * ((float)target.getDefence() / 200.0f))); //200 because 200 is max value.
         if (getReflex() > (target.getReflex() + (target.getReflex() * 0.1)))
         {
-            target.LoseHealth((int)(getAttackPower() * 1.5));
+            target.LoseHealth((int)(damage * 1.5));
             return true;
         }
         else
