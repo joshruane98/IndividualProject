@@ -169,9 +169,9 @@ public class PlayerController : BattleCharacter {
         int layerMask = 1 << 8;
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 2f, layerMask))
+        if (Physics.Raycast(transform.position + Vector3.up * 1 , transform.TransformDirection(Vector3.forward), out hit, 2f, layerMask))
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(transform.position + Vector3.up * 1 , transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             Debug.Log("Press E to interact.");
             //interactTextUI.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
@@ -182,7 +182,7 @@ public class PlayerController : BattleCharacter {
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            Debug.DrawRay(transform.position + Vector3.up * 1, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             //Debug.Log("Did not Hit");
             if (!inBattle)
             {
