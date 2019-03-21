@@ -177,7 +177,9 @@ public class PlayerController : BattleCharacter {
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //interactableObj.interactAction();
-                Debug.Log("Interacted");
+                //Debug.Log("Interacted");
+                interactableObj = (Interactable)hit.collider.gameObject.GetComponent(typeof(Interactable));
+                interactableObj.interactAction();
             }
         }
         else
