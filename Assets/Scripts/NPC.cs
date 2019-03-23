@@ -9,12 +9,13 @@ public class NPC : Interactable
     [SerializeField] string[] dialogue;
     int i;
     public Text dialogueDisplay;
+    public GameObject dialogueBackground;
     public Button nextSentenceButton;
     public override void interactAction()
     {
         dialogueDisplay.gameObject.SetActive(true);
+        dialogueBackground.SetActive(true);
         nextSentenceButton.gameObject.SetActive(true);
-        Debug.Log("NPC says: " + dialogue[0]);
         dialogueDisplay.text = dialogue[0];
     }
 
@@ -28,6 +29,7 @@ public class NPC : Interactable
         else
         {
             dialogueDisplay.gameObject.SetActive(false);
+            dialogueBackground.SetActive(false);
             nextSentenceButton.gameObject.SetActive(false);
         }
     }
