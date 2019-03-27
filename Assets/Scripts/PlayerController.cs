@@ -9,7 +9,7 @@ public class PlayerController : BattleCharacter {
     private int level;
     private int moneyBalance;
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
-    public bool inBattle; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
+    public bool movementDisabled; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
     public static PlayerController onlyPlayerController; //Used for checking to ensure one instance of PlayerController persists across all scenes.
     GameManager gameManager;
@@ -31,7 +31,7 @@ public class PlayerController : BattleCharacter {
         onlyPlayerController = this;
         GameObject.DontDestroyOnLoad(this.gameObject);
 
-        inBattle = false;
+        movementDisabled = false;
         isStunned = false;
         maxHealth = 50;
         health = maxHealth;
@@ -62,7 +62,7 @@ public class PlayerController : BattleCharacter {
     //MOVEMENT FUNCTIONS
     void movePlayerOnInput()
     {
-        if (!inBattle)
+        if (!movementDisabled)
         {
             if (Input.GetKey("up"))
             {
@@ -188,7 +188,7 @@ public class PlayerController : BattleCharacter {
         {
             Debug.DrawRay(transform.position + Vector3.up * 1, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
             //Debug.Log("Did not Hit");
-            if (!inBattle)
+            if (!movementDisabled)
             {
                 //interactTextUI.SetActive(false);
             }

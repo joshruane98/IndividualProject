@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class NPC : Interactable
 {
+    GameManager gameManager;
     [SerializeField] string npcName;
     [SerializeField] string[] dialogue;
     int i;
@@ -13,6 +14,8 @@ public class NPC : Interactable
     public Button nextSentenceButton;
     public override void interactAction()
     {
+        gameManager = GameManager.gameManagerInst;
+        gameManager.freezeGameWorld();
         dialogueDisplay.gameObject.SetActive(true);
         dialogueBackground.SetActive(true);
         nextSentenceButton.gameObject.SetActive(true);
@@ -28,9 +31,12 @@ public class NPC : Interactable
         }
         else
         {
+            //No more dialogue so continue game
             dialogueDisplay.gameObject.SetActive(false);
             dialogueBackground.SetActive(false);
             nextSentenceButton.gameObject.SetActive(false);
+            gameManager.unfreezeGameWorld();
+
         }
     }
 }

@@ -43,7 +43,7 @@ public class BattleManager : MonoBehaviour
         assignEnemyStats();
 
         player = (PlayerController)GameObject.Find("Player").GetComponent(typeof(PlayerController));
-        player.inBattle = true;
+        player.movementDisabled = true;
         player.setBattlePosition();
         decideWhoStarts();
         turnNumber = 0;
@@ -288,7 +288,7 @@ public class BattleManager : MonoBehaviour
         if (previousState == States.PLAYER_WIN || previousState == States.PLAYER_LOSE)
         {
             yield return new WaitForSeconds(3);
-            player.inBattle = false;
+            player.movementDisabled = false;
             Debug.Log("LEAVING BATTLE");
             gameManager.LoadOverwold();
         }

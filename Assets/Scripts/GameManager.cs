@@ -62,4 +62,14 @@ public class GameManager : MonoBehaviour
         enemyStats = null;
         SceneManager.LoadScene(1);
     }
+
+    public void freezeGameWorld()
+    {
+        playerInstance.movementDisabled = true;
+    }
+
+    public void unfreezeGameWorld()
+    {
+        playerInstance.movementDisabled = false;
+    }
 }
