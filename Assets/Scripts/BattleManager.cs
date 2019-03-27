@@ -183,6 +183,7 @@ public class BattleManager : MonoBehaviour
     public void assignEnemyStats()
     {
         IDictionary<string, int> enemyStats = gameManager.SendEnemyStats();
+        enemy.setMaxHealth(enemyStats["maxHealth"]);
         enemy.setHealth(enemyStats["health"]);
         enemy.setAttackPower(enemyStats["attack"]);
         enemy.setDefence(enemyStats["defence"]);

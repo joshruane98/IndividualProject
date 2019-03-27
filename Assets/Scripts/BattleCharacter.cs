@@ -18,6 +18,11 @@ public class BattleCharacter : MonoBehaviour
 
     protected Animator anim;
     //---SET STATS---
+    public void setMaxHealth(int amount)
+    {
+        maxHealth = amount;
+    }
+
     public void setHealth(int amount)
     {
         health = amount;

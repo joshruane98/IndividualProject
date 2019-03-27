@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Enemy : BattleCharacter
 {
+    bool speedyAttackFailed;
     // Start is called before the first frame update
     void Awake()
     {
         isStunned = false;
+        bool speedyAttackFailed = false;
         anim = GetComponent<Animator>();
     }
 
@@ -62,6 +64,7 @@ public class Enemy : BattleCharacter
     IDictionary<string, float> assignActionWeights(IDictionary<string, float> _actionWeights, int _playerHealth, string _playerDescription, int _turnNumber)
     {
         float remainingWeight;
+        /*
         if (_turnNumber <= 2) //Early in battle - try to reduce player stats to make them easier to fight.
         {
             if (_playerDescription.Contains("petrified") || _playerDescription.Contains("very frightened") && getBravery() >= 33 || _playerDescription.Contains("pretty frightened") && getBravery() >= 63)
@@ -98,5 +101,86 @@ public class Enemy : BattleCharacter
             _actionWeights["intimidate"] = 0.1f;
             return _actionWeights;
         }
+        */
+        //NEW IMPLEMENTATION
+        if (_playerDescription.Contains("petrified")) {
+            if (_turnNumber <= 2)
+            {
+                _actionWeights["intimidate"] = 0.75f;
+                remainingWeight = 1 - _actionWeights["intimidate"];
+                //Divide remaining weight between other actions
+                _actionWeights["attack"] = remainingWeight * 0.65f;
+                _actionWeights["speedyAttack"] = remainingWeight * 0.2f;
+                _actionWeights["massiveAttack"] = remainingWeight * 0.05f;
+                _actionWeights["stun"] = remainingWeight * 0.1f;
+                return _actionWeights;
+            }
+        }
+
+        if (getHealth() < (getMaxHealth() * 0.2))
+        {
+            _actionWeights["massiveAttack"] = 0.65f;
+            remainingWeight = 1 - _actionWeights["massiveAttack"];
+            //Divide remaining weight between other actions
+            _actionWeights["attack"] = remainingWeight * 0.65f;
+            _actionWeights["speedyAttack"] = remainingWeight * 0.2f;
+            _actionWeights["intimidate"] = remainingWeight * 0.05f;
+            _actionWeights["stun"] = remainingWeight * 0.1f;
+            return _actionWeights;
+        }
+
+        if (getHealth() < (getMaxHealth() * 0.5))
+        {
+            _actionWeights["massiveAttack"] = 0.4f;
+            remainingWeight = 1 - _actionWeights["massiveAttack"];
+            //Divide remaining weight between other actions
+            _actionWeights["attack"] = remainingWeight * 0.65f;
+            _actionWeights["speedyAttack"] = remainingWeight * 0.2f;
+            _actionWeights["intimidate"] = remainingWeight * 0.05f;
+            _actionWeights["stun"] = remainingWeight * 0.1f;
+            return _actionWeights;
+        }
+
+        if (_playerDescription.Contains("extremely slow") && speedyAttackFailed != true)
+        {
+            _actionWeights["speedyAttack"] = 0.6f;
+            remainingWeight = 1 - _actionWeights["speedyAttack"];
+            //Divide remaining weight between other actions
+            _actionWeights["attack"] = remainingWeight * 0.65f;
+            _actionWeights["massiveAttack"] = remainingWeight * 0.2f;
+            _actionWeights["intimidate"] = remainingWeight * 0.05f;
+            _actionWeights["stun"] = remainingWeight * 0.1f;
+            return _actionWeights;
+        }
+        else if (_playerDescription.Contains("very slow") && speedyAttackFailed != true)
+        {
+            _actionWeights["speedyAttack"] = 0.4f;
+            remainingWeight = 1 - _actionWeights["speedyAttack"];
+            //Divide remaining weight between other actions
+            _actionWeights["attack"] = remainingWeight * 0.65f;
+            _actionWeights["massiveAttack"] = remainingWeight * 0.2f;
+            _actionWeights["intimidate"] = remainingWeight * 0.05f;
+            _actionWeights["stun"] = remainingWeight * 0.1f;
+            return _actionWeights;
+        }
+        else if (_playerDescription.Contains("pretty slow") && speedyAttackFailed != true)
+        {
+            _actionWeights["speedyAttack"] = 0.3f;
+            remainingWeight = 1 - _actionWeights["speedyAttack"];
+            //Divide remaining weight between other actions
+            _actionWeights["attack"] = remainingWeight * 0.65f;
+            _actionWeights["massiveAttack"] = remainingWeight * 0.2f;
+            _actionWeights["intimidate"] = remainingWeight * 0.05f;
+            _actionWeights["stun"] = remainingWeight * 0.1f;
+            return _actionWeights;
+        }
+
+        //Default weightings to use
+        _actionWeights["attack"] = 0.65f;
+        _actionWeights["speedyAttack"] = 0.1f;
+        _actionWeights["massiveAttack"] = 0.05f;
+        _actionWeights["stun"] = 0.1f;
+        _actionWeights["intimidate"] = 0.1f;
+        return _actionWeights;
     }
 }
