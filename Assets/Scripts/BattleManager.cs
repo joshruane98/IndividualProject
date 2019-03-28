@@ -32,8 +32,25 @@ public class BattleManager : MonoBehaviour
     public GameObject PlayerBattleMenu;
     public Text battleCommentary;
     public Text enemyHealthUI;
+    private Animator enemyHealthUIAnim;
     public Text playerHealthUI;
+    private Animator playerHealthUIAnim;
     public Text enemyDescriptionUI_TEMP;
+    //Debug to display stats for illustrative purposes
+    public Text PAttackDisp;
+    private Animator PAttackDispAnim;
+    public Text PDefenceDisp;
+    private Animator PDefenceDispAnim;
+    public Text PBraveryDisp;
+    public Text PReflexDisp;
+    public Text EAttackDisp;
+    private Animator EAttackDispAnim;
+    public Text EDefencekDisp;
+    private Animator EDefenceDispAnim;
+    public Text EBraveryDisp;
+    public Text EReflexDisp;
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,12 +68,20 @@ public class BattleManager : MonoBehaviour
         enemyDescriptionUI_TEMP.text = enemy.generateDescription();
         playerHealthUI.text = player.getHealth().ToString();
         enemyHealthUI.text = enemy.getHealth().ToString();
+
+        enemyHealthUIAnim = (Animator)enemyHealthUI.GetComponent(typeof(Animator));
+        EAttackDispAnim = (Animator)EAttackDisp.GetComponent(typeof(Animator));
+        EDefenceDispAnim = (Animator)EDefencekDisp.GetComponent(typeof(Animator));
+        playerHealthUIAnim = (Animator)playerHealthUI.GetComponent(typeof(Animator));
+        PAttackDispAnim = (Animator)PAttackDisp.GetComponent(typeof(Animator));
+        PDefenceDispAnim = (Animator)PDefenceDisp.GetComponent(typeof(Animator));
     }
 
     // Update is called once per frame
     void Update()
     {
         checkForBattleEnd();
+        displayStatsUI();
         Debug.Log(currentState);
         switch (currentState)
         {
@@ -90,6 +115,7 @@ public class BattleManager : MonoBehaviour
                         enemy.Attack(player);
                         battleCommentary.text = "The enemy attacked you!";
                         Debug.Log("Enemy Attacked!");
+                        playerHealthUIAnim.Play("UIDecrease");
                     }
                     else if (enemyAction == "speedyAttack")
                     {
@@ -97,6 +123,7 @@ public class BattleManager : MonoBehaviour
                         if (speedyAttackSucessful)
                         {
                             battleCommentary.text = "The enemy attacked you speedily!";
+                            playerHealthUIAnim.Play("UIDecrease");
                         }
                         else if (!speedyAttackSucessful)
                         {
@@ -109,6 +136,7 @@ public class BattleManager : MonoBehaviour
                         enemy.MassiveAttack(player);
                         battleCommentary.text = "The enemy attacked you massively!";
                         Debug.Log("Enemy Attacked Massively!");
+                        playerHealthUIAnim.Play("UIDecrease");
                     }
                     else if (enemyAction == "stun")
                     {
@@ -122,6 +150,8 @@ public class BattleManager : MonoBehaviour
                         if (intimidationSucessful)
                         {
                             battleCommentary.text = "The enemy intimidated you!";
+                            PAttackDispAnim.Play("UIDecrease");
+                            PDefenceDispAnim.Play("UIDecrease");
                         }
                         else if (!intimidationSucessful)
                         {
@@ -191,6 +221,19 @@ public class BattleManager : MonoBehaviour
         enemy.setReflex(enemyStats["reflex"]);
     }
 
+    void displayStatsUI()
+    {
+        PAttackDisp.text = "Attack: " + player.getAttackPower();
+        PDefenceDisp.text = "Defence: " + player.getDefence();
+        PBraveryDisp.text = "Bravery: " + player.getBravery();
+        PReflexDisp.text = "Reflex: " + player.getReflex();
+
+        EAttackDisp.text = "Attack: " + enemy.getAttackPower();
+        EDefencekDisp.text = "Defence: " + enemy.getDefence();
+        EBraveryDisp.text = "Bravery: " + enemy.getBravery();
+        EReflexDisp.text = "Reflex: " + enemy.getReflex();
+}
+
     void endTurn()
     {
         playerHealthUI.text = player.getHealth().ToString();
@@ -226,6 +269,7 @@ public class BattleManager : MonoBehaviour
         {
             player.Attack(enemy);
             battleCommentary.text = "You attacked the enemy!";
+            enemyHealthUIAnim.Play("UIDecrease");
         }
         else if (action == "SpeedyAttack")
         {
@@ -233,6 +277,7 @@ public class BattleManager : MonoBehaviour
             if (speedyAttackSucessful)
             {
                 battleCommentary.text = "You attacked the enemy speedily!";
+                enemyHealthUIAnim.Play("UIDecrease");
             }
             else if (!speedyAttackSucessful)
             {
@@ -250,6 +295,8 @@ public class BattleManager : MonoBehaviour
             if (intimidationSucessful)
             {
                 battleCommentary.text = "You intimidated the enemy - its attack and defence fell!";
+                EAttackDispAnim.Play("UIDecrease");
+                EDefenceDispAnim.Play("UIDecrease");
             }
             else if (!intimidationSucessful)
             {
