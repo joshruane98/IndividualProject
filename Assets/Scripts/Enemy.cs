@@ -1,10 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : BattleCharacter
 {
     bool speedyAttackFailed;
+
+    //Debug UI to display weights
+    public Text attackWeightDisp;
+    public Text spAttackWeightDisp;
+    public Text mAttackWeightDisp;
+    public Text stunWeightDisp;
+    public Text intimiWeightDisp;
     // Start is called before the first frame update
     void Awake()
     {
@@ -113,6 +121,7 @@ public class Enemy : BattleCharacter
                 _actionWeights["speedyAttack"] = remainingWeight * 0.2f;
                 _actionWeights["massiveAttack"] = remainingWeight * 0.05f;
                 _actionWeights["stun"] = remainingWeight * 0.1f;
+                displayWeightings(_actionWeights);
                 return _actionWeights;
             }
         }
@@ -126,6 +135,7 @@ public class Enemy : BattleCharacter
             _actionWeights["speedyAttack"] = remainingWeight * 0.2f;
             _actionWeights["intimidate"] = remainingWeight * 0.05f;
             _actionWeights["stun"] = remainingWeight * 0.1f;
+            displayWeightings(_actionWeights);
             return _actionWeights;
         }
 
@@ -138,6 +148,7 @@ public class Enemy : BattleCharacter
             _actionWeights["speedyAttack"] = remainingWeight * 0.2f;
             _actionWeights["intimidate"] = remainingWeight * 0.05f;
             _actionWeights["stun"] = remainingWeight * 0.1f;
+            displayWeightings(_actionWeights);
             return _actionWeights;
         }
 
@@ -150,6 +161,7 @@ public class Enemy : BattleCharacter
             _actionWeights["massiveAttack"] = remainingWeight * 0.2f;
             _actionWeights["intimidate"] = remainingWeight * 0.05f;
             _actionWeights["stun"] = remainingWeight * 0.1f;
+            displayWeightings(_actionWeights);
             return _actionWeights;
         }
         else if (_playerDescription.Contains("very slow") && speedyAttackFailed != true)
@@ -161,6 +173,7 @@ public class Enemy : BattleCharacter
             _actionWeights["massiveAttack"] = remainingWeight * 0.2f;
             _actionWeights["intimidate"] = remainingWeight * 0.05f;
             _actionWeights["stun"] = remainingWeight * 0.1f;
+            displayWeightings(_actionWeights);
             return _actionWeights;
         }
         else if (_playerDescription.Contains("pretty slow") && speedyAttackFailed != true)
@@ -172,6 +185,7 @@ public class Enemy : BattleCharacter
             _actionWeights["massiveAttack"] = remainingWeight * 0.2f;
             _actionWeights["intimidate"] = remainingWeight * 0.05f;
             _actionWeights["stun"] = remainingWeight * 0.1f;
+            displayWeightings(_actionWeights);
             return _actionWeights;
         }
 
@@ -181,6 +195,16 @@ public class Enemy : BattleCharacter
         _actionWeights["massiveAttack"] = 0.05f;
         _actionWeights["stun"] = 0.1f;
         _actionWeights["intimidate"] = 0.1f;
+        displayWeightings(_actionWeights);
         return _actionWeights;
     }
+
+    void displayWeightings(IDictionary<string, float> _actionWeights)
+    {
+        attackWeightDisp.text = "Attack weight: " + _actionWeights["attack"];
+        spAttackWeightDisp.text = "Speedy Attack weight: " + _actionWeights["speedyAttack"];
+        mAttackWeightDisp.text = "Massive Attack weight: " + _actionWeights["massiveAttack"];
+        stunWeightDisp.text = "Stun weight: " + _actionWeights["stun"];
+        intimiWeightDisp.text = "Intimidate weight: " + _actionWeights["intimidate"];
+}
 }
