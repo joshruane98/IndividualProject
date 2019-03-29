@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class OverworldCamera : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Transform target;
+    public Vector3 offset;
 
-    // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        
+        transform.position = target.position + offset;
+
+        transform.LookAt(target);
     }
 }
