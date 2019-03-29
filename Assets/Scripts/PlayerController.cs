@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerController : BattleCharacter {
     private int XP;
     private int level;
-    private int moneyBalance;
+    public int moneyBalance;
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
     public bool movementDisabled; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
@@ -161,6 +161,12 @@ public class PlayerController : BattleCharacter {
             enemyStats["bravery"] = _enemy.getBravery();
             enemyStats["reflex"] = _enemy.getReflex();
             gameManager.LoadBattle(enemyStats);
+        }
+
+        if (collision.gameObject.CompareTag("Collectable"))
+        {
+            collision.gameObject.SetActive(false);
+            moneyBalance++;
         }
     }
 
