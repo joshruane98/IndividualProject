@@ -13,6 +13,10 @@ public class BattleCharacter : MonoBehaviour
     [SerializeField] protected int defence; //current defence including any effects
     [SerializeField] protected int bravery;
     [SerializeField] protected int reflex;
+
+    public ParticleSystem hurtEffect;
+    public ParticleSystem intimidatedEffect;
+
     public bool isStunned; //To miss turns in battle
     public int turnsToMiss; //How many turns to miss when stunned
 
@@ -103,6 +107,7 @@ public class BattleCharacter : MonoBehaviour
         {
             health = 0;
         }
+        hurtEffect.Play();
     }
 
     //Attack
@@ -130,6 +135,7 @@ public class BattleCharacter : MonoBehaviour
     public void DecreaseDefence(int amount)
     {
         defence -= amount;
+        intimidatedEffect.Play();
     }
 
     public void ResetDefence()

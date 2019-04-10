@@ -8,6 +8,7 @@ public class PlayerController : BattleCharacter {
     private int XP;
     private int level;
     public int moneyBalance;
+    //public ArrayList inventory;
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
     public bool movementDisabled; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
@@ -168,6 +169,19 @@ public class PlayerController : BattleCharacter {
             collision.gameObject.SetActive(false);
             moneyBalance++;
         }
+        /*
+        if (collision.gameObject.CompareTag("InventoryItem"))
+        {
+            collision.gameObject.SetActive(false);
+            inventory.Add(collision.gameObject.GetComponent(typeof(InventoryItem)));
+        }
+
+        if (collision.gameObject.CompareTag("ConsumableItem"))
+        {
+            collision.gameObject.SetActive(false);
+            inventory.Add(collision.gameObject.GetComponent(typeof(ConsumableItem)));
+        }
+        */
     }
 
     //LOOK FOR INTERACTABLE
