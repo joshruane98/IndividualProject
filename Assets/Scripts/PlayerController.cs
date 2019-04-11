@@ -141,29 +141,6 @@ public class PlayerController : BattleCharacter {
     //CHECK COLLISIONS
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("Player collided with enemy");
-            Enemy _enemy = (Enemy)collision.gameObject.GetComponent(typeof(Enemy));
-            //Store enemy stats and load battle - these stats will be assigned to the enemy in battle.
-            IDictionary<string, int> enemyStats = new Dictionary<string, int>()
-                                            {
-                                                {"maxHealth", 0},
-                                                { "health", 0},
-                                                {"attack", 0},
-                                                {"defence", 0},
-                                                {"bravery", 0},
-                                                {"reflex", 0}
-                                            };
-            enemyStats["maxHealth"] = _enemy.getMaxHealth();
-            enemyStats["health"] = _enemy.getHealth();
-            enemyStats["attack"] = _enemy.getAttackPower();
-            enemyStats["defence"] = _enemy.getDefence();
-            enemyStats["bravery"] = _enemy.getBravery();
-            enemyStats["reflex"] = _enemy.getReflex();
-            gameManager.LoadBattle(enemyStats);
-        }
-
         if (collision.gameObject.CompareTag("Collectable"))
         {
             collision.gameObject.SetActive(false);
@@ -182,6 +159,32 @@ public class PlayerController : BattleCharacter {
             inventory.Add(collision.gameObject.GetComponent(typeof(ConsumableItem)));
         }
         */
+    }
+
+    private void OnTriggerEnter(Collider trigger)
+    {
+        if (trigger.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Player collided with enemy");
+            Enemy _enemy = (Enemy)trigger.gameObject.GetComponent(typeof(Enemy));
+            //Store enemy stats and load battle - these stats will be assigned to the enemy in battle.
+            IDictionary<string, int> enemyStats = new Dictionary<string, int>()
+                                            {
+                                                {"maxHealth", 0},
+                                                { "health", 0},
+                                                {"attack", 0},
+                                                {"defence", 0},
+                                                {"bravery", 0},
+                                                {"reflex", 0}
+                                            };
+            enemyStats["maxHealth"] = _enemy.getMaxHealth();
+            enemyStats["health"] = _enemy.getHealth();
+            enemyStats["attack"] = _enemy.getAttackPower();
+            enemyStats["defence"] = _enemy.getDefence();
+            enemyStats["bravery"] = _enemy.getBravery();
+            enemyStats["reflex"] = _enemy.getReflex();
+            gameManager.LoadBattle(enemyStats);
+        }
     }
 
     //LOOK FOR INTERACTABLE
