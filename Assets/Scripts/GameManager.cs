@@ -35,12 +35,27 @@ public class GameManager : MonoBehaviour
         GameObject.DontDestroyOnLoad(this.gameObject);
     }
 
-    public void LoadBattle(IDictionary<string, int> _enemyStats)
+    public void LoadBattle(Enemy _enemy)
     {
+        enemyStats = new Dictionary<string, int>()
+                                            {
+                                                {"maxHealth", 0},
+                                                { "health", 0},
+                                                {"attack", 0},
+                                                {"defence", 0},
+                                                {"bravery", 0},
+                                                {"reflex", 0}
+                                            };
+        enemyStats["maxHealth"] = _enemy.getMaxHealth();
+        enemyStats["health"] = _enemy.getHealth();
+        enemyStats["attack"] = _enemy.getAttackPower();
+        enemyStats["defence"] = _enemy.getDefence();
+        enemyStats["bravery"] = _enemy.getBravery();
+        enemyStats["reflex"] = _enemy.getReflex();
+
         playerLastOverworldPosition = playerInstance.gameObject.transform.position;
         Debug.Log(playerLastOverworldPosition);
         SceneManager.LoadScene(2);
-        enemyStats = _enemyStats;
         /*
         SceneManager.sceneLoaded += ;
         BattleManager battleManager = (BattleManager)GameObject.Find("BattleManagerObject").GetComponent(typeof(BattleManager));
