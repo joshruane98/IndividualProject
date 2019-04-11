@@ -9,16 +9,18 @@ public class NPC : Interactable
     [SerializeField] string npcName;
     [SerializeField] string[] dialogue;
     int i;
+    public Canvas dialogueCanvas;
     public Text dialogueDisplay;
-    public GameObject dialogueBackground;
-    public Button nextSentenceButton;
+    //public GameObject dialogueBackground;
+    //public Button nextSentenceButton;
     public override void interactAction()
     {
         gameManager = GameManager.gameManagerInst;
         gameManager.freezeGameWorld();
-        dialogueDisplay.gameObject.SetActive(true);
-        dialogueBackground.SetActive(true);
-        nextSentenceButton.gameObject.SetActive(true);
+        dialogueCanvas.gameObject.SetActive(true);
+        //dialogueDisplay.gameObject.SetActive(true);
+        //dialogueBackground.SetActive(true);
+        //nextSentenceButton.gameObject.SetActive(true);
         dialogueDisplay.text = dialogue[0];
     }
 
@@ -32,9 +34,10 @@ public class NPC : Interactable
         else
         {
             //No more dialogue so continue game
-            dialogueDisplay.gameObject.SetActive(false);
-            dialogueBackground.SetActive(false);
-            nextSentenceButton.gameObject.SetActive(false);
+            dialogueCanvas.gameObject.SetActive(false);
+            //dialogueDisplay.gameObject.SetActive(false);
+            //dialogueBackground.SetActive(false);
+            //nextSentenceButton.gameObject.SetActive(false);
             gameManager.unfreezeGameWorld();
 
         }
