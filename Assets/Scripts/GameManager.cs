@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     BattleManager battleManager;
 
     IDictionary<string, int> enemyStats;
+    Vector3 playerLastOverworldPosition;
 
     // Start is called before the first frame update
     void Awake()
@@ -36,6 +37,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadBattle(IDictionary<string, int> _enemyStats)
     {
+        playerLastOverworldPosition = playerInstance.gameObject.transform.position;
+        Debug.Log(playerLastOverworldPosition);
         SceneManager.LoadScene(2);
         enemyStats = _enemyStats;
         /*
@@ -60,6 +63,7 @@ public class GameManager : MonoBehaviour
     public void LoadOverwold()
     {
         enemyStats = null;
+        playerInstance.gameObject.transform.position = playerLastOverworldPosition - new Vector3(0, 0, 3);
         SceneManager.LoadScene(1);
     }
 
