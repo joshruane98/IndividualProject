@@ -9,8 +9,14 @@ public class GameManager : MonoBehaviour
     PlayerController playerInstance;
     BattleManager battleManager;
 
+    bool firstOverworldLoad;
+
     IDictionary<string, int> enemyStats;
     Vector3 playerLastOverworldPosition;
+    GameObject[] enemies;
+    List<int> defeatedEnemiesIDs;
+    int enemyEncounteredByPlayer; //Stores ID of last enemy encountered.
+    bool playerWonLastBattle;
 
     // Start is called before the first frame update
     void Awake()
@@ -19,8 +25,10 @@ public class GameManager : MonoBehaviour
         playerInstance = PlayerController.onlyPlayerController; //Store reference to instance of player.
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
+            firstOverworldLoad = true;
             SceneManager.LoadScene(1);
         }
+        defeatedEnemiesIDs = new List<int>();
     }
 
     void SetupGM()
@@ -53,6 +61,8 @@ public class GameManager : MonoBehaviour
         enemyStats["bravery"] = _enemy.getBravery();
         enemyStats["reflex"] = _enemy.getReflex();
 
+        enemyEncounteredByPlayer = _enemy.id;
+
         playerLastOverworldPosition = playerInstance.gameObject.transform.position;
         Debug.Log(playerLastOverworldPosition);
         SceneManager.LoadScene(2);
@@ -75,11 +85,16 @@ public class GameManager : MonoBehaviour
         return enemyStats;
     }
 
-    public void LoadOverwold()
+    public void LoadOverwoldAfterBattle()
     {
-        enemyStats = null;
         playerInstance.gameObject.transform.position = playerLastOverworldPosition - new Vector3(0, 0, 3);
         SceneManager.LoadScene(1);
+        if (playerWonLastBattle)
+        {
+            defeatedEnemiesIDs.Add(enemyEncounteredByPlayer);
+        }
+        enemyStats = null;
+        //enemyEncounteredByPlayer = null;
     }
 
     public void freezeGameWorld()
@@ -90,5 +105,47 @@ public class GameManager : MonoBehaviour
     public void unfreezeGameWorld()
     {
         playerInstance.movementDisabled = false;
+    }
+
+    public void setPlayerWonLastBattle(bool result)
+    {
+        playerWonLastBattle = result;
+    }
+
+    //SCEN LOADED MANAGEMENT
+    void OnEnable()
+    {
+        //Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
+        SceneManager.sceneLoaded += OnSceneFinishedLoading;
+    }
+
+    void OnDisable()
+    {
+        //Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
+        SceneManager.sceneLoaded -= OnSceneFinishedLoading;
+    }
+
+    void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Level Loaded");
+        Debug.Log(scene.name);
+        Debug.Log(mode);
+
+        if (scene.name == "Overworld")
+        {
+            if (firstOverworldLoad)
+            {
+                enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            }
+
+            foreach (GameObject enemy in enemies)
+            {
+                Enemy _enemy = (Enemy)enemy.gameObject.GetComponent(typeof(Enemy));
+                if (defeatedEnemiesIDs.Contains(_enemy.id))
+                {
+                    _enemy.gameObject.SetActive(false);
+                }
+            }
+        }
     }
 }

@@ -7,6 +7,8 @@ public class Enemy : BattleCharacter
 {
     bool speedyAttackFailed;
 
+    public int id;
+
     //Debug UI to display weights
     public Text attackWeightDisp;
     public Text spAttackWeightDisp;

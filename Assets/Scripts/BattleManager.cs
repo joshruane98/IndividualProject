@@ -180,10 +180,12 @@ public class BattleManager : MonoBehaviour
                 break;
             case (States.PLAYER_WIN):
                 battleCommentary.text = "You defeated the enemy and won the battle!";
+                gameManager.setPlayerWonLastBattle(true);
                 endTurn();
                 break;
             case (States.PLAYER_LOSE):
                 battleCommentary.text = "The enemy defeated you! You lost the battle.";
+                gameManager.setPlayerWonLastBattle(false);
                 endTurn();
                 break;
         }
@@ -337,7 +339,7 @@ public class BattleManager : MonoBehaviour
             yield return new WaitForSeconds(3);
             player.movementDisabled = false;
             Debug.Log("LEAVING BATTLE");
-            gameManager.LoadOverwold();
+            gameManager.LoadOverwoldAfterBattle();
         }
         else
         {

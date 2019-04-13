@@ -2994,6 +2994,10 @@ PrefabInstance:
       propertyPath: hurtEffect
       value: 
       objectReference: {fileID: 788806205}
+    - target: {fileID: 474632851, guid: 69892c2a0e33ac545bd383d12310bc4c, type: 3}
+      propertyPath: id
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 474632850, guid: 69892c2a0e33ac545bd383d12310bc4c, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.463
@@ -4339,6 +4343,7 @@ MonoBehaviour:
   intimidatedEffect: {fileID: 0}
   isStunned: 0
   turnsToMiss: 0
+  id: 0
   attackWeightDisp: {fileID: 0}
   spAttackWeightDisp: {fileID: 0}
   mAttackWeightDisp: {fileID: 0}
