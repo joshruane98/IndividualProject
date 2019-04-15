@@ -14,6 +14,7 @@ public class PlayerController : BattleCharacter {
     public bool movementDisabled; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
 
     public static PlayerController onlyPlayerController; //Used for checking to ensure one instance of PlayerController persists across all scenes.
+    public Inventory inventory;
     GameManager gameManager;
 
     //UI
@@ -91,6 +92,11 @@ public class PlayerController : BattleCharacter {
                 anim.SetBool("IsWalking", false);
             }
         }
+
+        if (Input.GetKey("r"))
+        {
+            inventory.displayInventory();
+        }
     }
 
     public void setBattlePosition()
@@ -148,13 +154,13 @@ public class PlayerController : BattleCharacter {
             moneyBalance++;
             moneyDisplay.text = moneyBalance.ToString();
         }
-        /*
+        
         if (collision.gameObject.CompareTag("InventoryItem"))
         {
             collision.gameObject.SetActive(false);
-            inventory.Add(collision.gameObject.GetComponent(typeof(InventoryItem)));
+            inventory.addItem((InventoryItem)collision.gameObject.GetComponent(typeof(InventoryItem)));
         }
-
+        /*
         if (collision.gameObject.CompareTag("ConsumableItem"))
         {
             collision.gameObject.SetActive(false);
