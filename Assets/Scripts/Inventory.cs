@@ -7,6 +7,7 @@ public class Inventory : MonoBehaviour
 {
     IDictionary<int, InventoryItem> inventory;
     int maxInventorySize;
+    int selectedSlot;
 
     //UI
     [SerializeField] GameObject inventoryDisplay;
@@ -50,6 +51,35 @@ public class Inventory : MonoBehaviour
             }
         }
         Debug.Log(inventory[1].itemName);
+    }
+
+    public void removeItemByName(string itemToBeRemoved)
+    {
+        //Primarily for removing quest items, not consumables such as potions.
+        for (int i = 1; i <= maxInventorySize; i++)
+        {
+            if (inventory[i].itemName == itemToBeRemoved)
+            {
+                inventory[i] = null;
+                break;
+            }
+        }
+    }
+
+    public void removeItemInSlot(int slot)
+    {
+        inventory[slot] = null;
+    }
+
+    public void setSelectedSlot(int slotNumber)
+    {
+        //When a slot button is clicked...
+        selectedSlot = slotNumber;
+    }
+
+    public void consumeButtonAction()
+    {
+
     }
 
     public void displayInventory()
