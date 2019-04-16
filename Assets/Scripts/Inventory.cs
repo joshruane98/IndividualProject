@@ -17,6 +17,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] Button slot4Button;
     [SerializeField] Button slot5Button;
     [SerializeField] Text descriptionTextBox;
+    [SerializeField] Button consumeButton;
 
     void Awake()
     {
@@ -76,11 +77,23 @@ public class Inventory : MonoBehaviour
         //When a slot button is clicked...
         selectedSlot = slotNumber;
         descriptionTextBox.text = inventory[selectedSlot].itemDescription;
+        if (inventory[selectedSlot].GetType() == typeof(ConsumableItem))
+        {
+            consumeButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            consumeButton.gameObject.SetActive(false);
+        }
     }
 
     public void consumeButtonAction()
     {
-
+        if (inventory[selectedSlot].GetType() == typeof(ConsumableItem))
+        {
+            ConsumableItem consumable = (ConsumableItem)inventory[selectedSlot];
+            consumable.consumeItem();
+        }
     }
 
     public void displayInventory()
