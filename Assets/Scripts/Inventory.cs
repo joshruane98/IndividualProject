@@ -75,6 +75,7 @@ public class Inventory : MonoBehaviour
     {
         //When a slot button is clicked...
         selectedSlot = slotNumber;
+        descriptionTextBox.text = inventory[selectedSlot].itemDescription;
     }
 
     public void consumeButtonAction()
