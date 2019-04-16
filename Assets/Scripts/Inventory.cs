@@ -65,6 +65,7 @@ public class Inventory : MonoBehaviour
                 break;
             }
         }
+        organiseInventory();
     }
 
     public void removeItemInSlot(int slot)
@@ -72,6 +73,7 @@ public class Inventory : MonoBehaviour
         inventory[slot] = null;
         consumeButton.gameObject.SetActive(false);
         selectedSlot = 0;
+        organiseInventory();
         displayInventory();
     }
 
@@ -98,6 +100,21 @@ public class Inventory : MonoBehaviour
             consumable.consumeItem();
         }
         removeItemInSlot(selectedSlot);
+    }
+
+    public void organiseInventory()
+    {
+        //Used to close gaps in inventory when items removed
+        int i = 1;
+        while (i < maxInventorySize)
+        {
+            if (inventory[i] == null && inventory[i+1] != null)
+            {
+                inventory[i] = inventory[i + 1];
+                inventory[i + 1] = null;
+            }
+            i++;
+        }
     }
 
     public void displayInventory()
