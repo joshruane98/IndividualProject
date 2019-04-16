@@ -90,28 +90,27 @@ public class Inventory : MonoBehaviour
         if (inventory[1] != null)
         {
             slot1Button.gameObject.SetActive(true);
-            Debug.Log(inventory[1].itemName);
             slot1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[1].itemName;
         }
         if (inventory[2] != null)
         {
             slot2Button.gameObject.SetActive(true);
-            slot2Button.gameObject.GetComponent<Text>().text = inventory[2].itemName;
+            slot2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[2].itemName;
         }
         if (inventory[3] != null)
         {
             slot3Button.gameObject.SetActive(true);
-            slot3Button.gameObject.GetComponent<Text>().text = inventory[3].itemName;
+            slot3Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[3].itemName;
         }
         if (inventory[4] != null)
         {
             slot4Button.gameObject.SetActive(true);
-            slot4Button.gameObject.GetComponent<Text>().text = inventory[4].itemName;
+            slot4Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[4].itemName;
         }
         if (inventory[5] != null)
         {
             slot5Button.gameObject.SetActive(true);
-            slot5Button.gameObject.GetComponent<Text>().text = inventory[5].itemName;
+            slot5Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[5].itemName;
         }
     }
 

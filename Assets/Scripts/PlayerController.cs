@@ -160,13 +160,13 @@ public class PlayerController : BattleCharacter {
             collision.gameObject.SetActive(false);
             inventory.addItem((InventoryItem)collision.gameObject.GetComponent(typeof(InventoryItem)));
         }
-        /*
+        
         if (collision.gameObject.CompareTag("ConsumableItem"))
         {
             collision.gameObject.SetActive(false);
-            inventory.Add(collision.gameObject.GetComponent(typeof(ConsumableItem)));
+            inventory.addItem((ConsumableItem)collision.gameObject.GetComponent(typeof(ConsumableItem)));
         }
-        */
+        
     }
 
     private void OnTriggerEnter(Collider trigger)
