@@ -70,6 +70,9 @@ public class Inventory : MonoBehaviour
     public void removeItemInSlot(int slot)
     {
         inventory[slot] = null;
+        consumeButton.gameObject.SetActive(false);
+        selectedSlot = 0;
+        displayInventory();
     }
 
     public void setSelectedSlot(int slotNumber)
@@ -94,6 +97,7 @@ public class Inventory : MonoBehaviour
             ConsumableItem consumable = (ConsumableItem)inventory[selectedSlot];
             consumable.consumeItem();
         }
+        removeItemInSlot(selectedSlot);
     }
 
     public void displayInventory()
@@ -106,25 +110,45 @@ public class Inventory : MonoBehaviour
             slot1Button.gameObject.SetActive(true);
             slot1Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[1].itemName;
         }
+        else
+        {
+            slot1Button.gameObject.SetActive(false);
+        }
         if (inventory[2] != null)
         {
             slot2Button.gameObject.SetActive(true);
             slot2Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[2].itemName;
+        }
+        else
+        {
+            slot2Button.gameObject.SetActive(false);
         }
         if (inventory[3] != null)
         {
             slot3Button.gameObject.SetActive(true);
             slot3Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[3].itemName;
         }
+        else
+        {
+            slot3Button.gameObject.SetActive(false);
+        }
         if (inventory[4] != null)
         {
             slot4Button.gameObject.SetActive(true);
             slot4Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[4].itemName;
         }
+        else
+        {
+            slot4Button.gameObject.SetActive(false);
+        }
         if (inventory[5] != null)
         {
             slot5Button.gameObject.SetActive(true);
             slot5Button.transform.Find("Text").gameObject.GetComponent<Text>().text = inventory[5].itemName;
+        }
+        else
+        {
+            slot5Button.gameObject.SetActive(false);
         }
     }
 
