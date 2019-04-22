@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class NPC : Interactable
 {
-    GameManager gameManager;
+    protected GameManager gameManager;
     [SerializeField] string npcName;
-    [SerializeField] string[] dialogue;
+    [SerializeField] protected string[] dialogue;
     int i;
     public Canvas dialogueCanvas;
     public Text dialogueDisplay;
@@ -35,6 +35,7 @@ public class NPC : Interactable
         {
             //No more dialogue so continue game
             dialogueCanvas.gameObject.SetActive(false);
+            i = 0;
             //dialogueDisplay.gameObject.SetActive(false);
             //dialogueBackground.SetActive(false);
             //nextSentenceButton.gameObject.SetActive(false);

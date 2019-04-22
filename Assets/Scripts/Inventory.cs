@@ -39,6 +39,19 @@ public class Inventory : MonoBehaviour
         return inventory[slotNum];
     }
 
+    public InventoryItem getItemByName(string itemRequired)
+    {
+        for (int i = 1; i <= maxInventorySize; i++)
+        {
+
+            if (inventory[i] != null && inventory[i].itemName == itemRequired)
+            {
+                return inventory[i];
+            }
+        }
+        return null;
+    }
+
     public void addItem(InventoryItem itemToAdd)
     {
         InventoryItem _itemToAdd = itemToAdd;
