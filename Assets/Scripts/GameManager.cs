@@ -27,10 +27,10 @@ public class GameManager : MonoBehaviour
         SetupGM();
         playerInstance = PlayerController.onlyPlayerController; //Store reference to instance of player.
         overworldUI = (Canvas)GameObject.Find("OverworldUI").GetComponent(typeof(Canvas));
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        if (SceneManager.GetActiveScene().name == "Preload")
         {
             firstOverworldLoad = true;
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene("Overworld");
         }
         defeatedEnemiesIDs = new List<int>();
         collectedInventoryItemIDs = new List<int>();
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         playerLastOverworldPosition = playerInstance.gameObject.transform.position;
         Debug.Log(playerLastOverworldPosition);
         //overworldUI.gameObject.SetActive(false);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("BattleTestScene");
         /*
         SceneManager.sceneLoaded += ;
         BattleManager battleManager = (BattleManager)GameObject.Find("BattleManagerObject").GetComponent(typeof(BattleManager));
@@ -94,7 +94,7 @@ public class GameManager : MonoBehaviour
     public void LoadOverwoldAfterBattle()
     {
         playerInstance.gameObject.transform.position = playerLastOverworldPosition - new Vector3(0, 0, 3);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Overworld");
         overworldUI.gameObject.SetActive(true);
         if (playerWonLastBattle)
         {
@@ -122,6 +122,13 @@ public class GameManager : MonoBehaviour
     public void setPlayerWonLastBattle(bool result)
     {
         playerWonLastBattle = result;
+    }
+
+    public void restartGame()
+    {
+        Destroy(playerInstance.gameObject);
+        SceneManager.LoadScene("MainMenu");
+        Destroy(this.gameObject);
     }
 
     //SCEN LOADED MANAGEMENT

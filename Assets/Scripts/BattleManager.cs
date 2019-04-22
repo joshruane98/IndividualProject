@@ -196,7 +196,7 @@ public class BattleManager : MonoBehaviour
                 gameOverTextAnim.SetBool("gameOver", true);
                 battleCommentary.text = "The enemy defeated you! You lost the battle.";
                 gameManager.setPlayerWonLastBattle(false);
-                //endTurn();
+                endTurn();
                 break;
         }
     }
@@ -343,8 +343,13 @@ public class BattleManager : MonoBehaviour
     IEnumerator Wait()
     {
         Debug.Log("Waiting.........");
-        
-        if (previousState == States.PLAYER_WIN || previousState == States.PLAYER_LOSE)
+
+        if (previousState == States.PLAYER_LOSE)
+        {
+            yield return new WaitForSeconds(5);
+            gameManager.restartGame();
+        }
+        else if (previousState == States.PLAYER_WIN)
         {
             yield return new WaitForSeconds(3);
             player.movementDisabled = false;
