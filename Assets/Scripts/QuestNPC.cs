@@ -33,6 +33,8 @@ public class QuestNPC : NPC
     {
         if (player.inventory.getItemByName(itemNeeded) != null)
         {
+            gameManager.numberOfQuestsCompleted++;
+            gameManager.checkForDemoEnd();
             return true;
         }
         else

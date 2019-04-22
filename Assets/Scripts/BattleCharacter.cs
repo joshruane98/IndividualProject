@@ -98,6 +98,10 @@ public class BattleCharacter : MonoBehaviour
     public void GainHealth(int amount)
     {
         health += amount;
+        if (health > getMaxHealth())
+        {
+            health = getMaxHealth();
+        }
     }
 
     public void LoseHealth(int amount)

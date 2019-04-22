@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     List<int> collectedInventoryItemIDs;
     int enemyEncounteredByPlayer; //Stores ID of last enemy encountered.
     bool playerWonLastBattle;
+    public int numberOfEnemiesBeaten;
+    public int numberOfQuestsCompleted;
 
     // Start is called before the first frame update
     void Awake()
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour
         }
         defeatedEnemiesIDs = new List<int>();
         collectedInventoryItemIDs = new List<int>();
+        numberOfEnemiesBeaten = 0;
+        numberOfQuestsCompleted = 0;
     }
 
     void SetupGM()
@@ -46,6 +50,23 @@ public class GameManager : MonoBehaviour
         gameManagerInst = this;
         //Ensure Game Manager persists through all scenes
         GameObject.DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void checkForDemoEnd()
+    {
+        Debug.Log("Checking.....");
+        if (numberOfQuestsCompleted == 2 && numberOfEnemiesBeaten == 3)
+        {
+            Debug.Log("Ready to end.....");
+            StartCoroutine(endDemo());
+        }
+    }
+
+    IEnumerator endDemo()
+    {
+        Debug.Log("Ending.....");
+        yield return new WaitForSeconds(5);
+        restartGame();
     }
 
     public void LoadBattle(Enemy _enemy)
@@ -99,7 +120,9 @@ public class GameManager : MonoBehaviour
         if (playerWonLastBattle)
         {
             defeatedEnemiesIDs.Add(enemyEncounteredByPlayer);
+            numberOfEnemiesBeaten++;
         }
+        checkForDemoEnd();
         enemyStats = null;
         //enemyEncounteredByPlayer = null;
     }
