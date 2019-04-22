@@ -612,9 +612,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 0
-  health: 100
-  baseAttackPower: 10
-  attackPower: 10
+  health: 40
+  baseAttackPower: 7
+  attackPower: 7
   baseDefence: 10
   defence: 10
   bravery: 10
@@ -623,6 +623,7 @@ MonoBehaviour:
   intimidatedEffect: {fileID: 0}
   isStunned: 0
   turnsToMiss: 0
+  id: 1
   attackWeightDisp: {fileID: 0}
   spAttackWeightDisp: {fileID: 0}
   mAttackWeightDisp: {fileID: 0}
@@ -639,8 +640,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.684082, y: 1.6538124, z: 1.5508709}
-  m_Center: {x: -0.0068969727, y: 0.3269062, z: -0.0607481}
+  m_Size: {x: 3.3268585, y: 1.6538124, z: 2.8809757}
+  m_Center: {x: 0.20456696, y: 0.3269062, z: 0.024870872}
 --- !u!1 &496309193
 GameObject:
   m_ObjectHideFlags: 0

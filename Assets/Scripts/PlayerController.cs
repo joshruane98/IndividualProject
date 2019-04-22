@@ -8,7 +8,6 @@ public class PlayerController : BattleCharacter {
     private int XP;
     private int level;
     public int moneyBalance;
-    public Text moneyDisplay;
     //public ArrayList inventory;
     public Interactable interactableObj; //Nearby object that can currently be interacted with.
     public bool movementDisabled; //Identifies if player is currently in Battle. Used to disable movement controls when in battle.
@@ -18,10 +17,11 @@ public class PlayerController : BattleCharacter {
     GameManager gameManager;
 
     //UI
-    //public GameObject interactTextUI;
+    public GameObject interactPrompt;
+    public Text moneyDisplay;
 
-	// Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
-	void Awake () {
+    // Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
+    void Awake () {
         if (onlyPlayerController != null)
         {
             Debug.Log("THERES ALREADY A PLAYER");
@@ -124,7 +124,7 @@ public class PlayerController : BattleCharacter {
         {
             transform.localEulerAngles = new Vector3(0, 90, 0);
         }
-        transform.Translate(new Vector3(0, 0, 2) * Time.deltaTime);
+        transform.Translate(new Vector3(0, 0, 3) * Time.deltaTime);
     }
 
     //HEALTH FUNCTIONS
@@ -192,7 +192,7 @@ public class PlayerController : BattleCharacter {
         {
             Debug.DrawRay(transform.position + Vector3.up * 1 , transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
             Debug.Log("Press E to interact.");
-            //interactTextUI.SetActive(true);
+            interactPrompt.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //interactableObj.interactAction();
@@ -207,7 +207,7 @@ public class PlayerController : BattleCharacter {
             //Debug.Log("Did not Hit");
             if (!movementDisabled)
             {
-                //interactTextUI.SetActive(false);
+                interactPrompt.SetActive(false);
             }
         }
     }
