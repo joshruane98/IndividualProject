@@ -36,6 +36,10 @@ public class BattleManager : MonoBehaviour
     public Text playerHealthUI;
     private Animator playerHealthUIAnim;
     public Text enemyDescriptionUI_TEMP;
+    public GameObject blackBG;
+    private Animator blackBGAnim;
+    public GameObject gameOverText;
+    private Animator gameOverTextAnim;
     //Debug to display stats for illustrative purposes
     public Text PAttackDisp;
     private Animator PAttackDispAnim;
@@ -75,6 +79,8 @@ public class BattleManager : MonoBehaviour
         playerHealthUIAnim = (Animator)playerHealthUI.GetComponent(typeof(Animator));
         PAttackDispAnim = (Animator)PAttackDisp.GetComponent(typeof(Animator));
         PDefenceDispAnim = (Animator)PDefenceDisp.GetComponent(typeof(Animator));
+        blackBGAnim = (Animator)blackBG.GetComponent(typeof(Animator));
+        gameOverTextAnim = (Animator)gameOverText.GetComponent(typeof(Animator));
     }
 
     // Update is called once per frame
@@ -184,9 +190,13 @@ public class BattleManager : MonoBehaviour
                 endTurn();
                 break;
             case (States.PLAYER_LOSE):
+                blackBG.SetActive(true);
+                blackBGAnim.SetBool("gameOver", true);
+                gameOverText.SetActive(true);
+                gameOverTextAnim.SetBool("gameOver", true);
                 battleCommentary.text = "The enemy defeated you! You lost the battle.";
                 gameManager.setPlayerWonLastBattle(false);
-                endTurn();
+                //endTurn();
                 break;
         }
     }
