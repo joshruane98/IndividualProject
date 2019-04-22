@@ -41,12 +41,15 @@ public class Inventory : MonoBehaviour
 
     public void addItem(InventoryItem itemToAdd)
     {
+        InventoryItem _itemToAdd = itemToAdd;
+        itemToAdd.gameObject.transform.parent = null;
+        GameObject.DontDestroyOnLoad(itemToAdd.gameObject);
         Debug.Log(itemToAdd.itemName);
         for (int i = 1; i <= maxInventorySize; i++)
         {
             if (inventory[i] == null)
             {
-                inventory[i] = itemToAdd;
+                inventory[i] = _itemToAdd;
                 Debug.Log(inventory[i].itemName);
                 break;
             }
@@ -177,5 +180,10 @@ public class Inventory : MonoBehaviour
         slot4Button.gameObject.SetActive(false);
         slot5Button.gameObject.SetActive(false);
         inventoryDisplay.SetActive(false);
+    }
+
+    public void OnDestroy()
+    {
+        Debug.Log("Inventory destroyed");
     }
 }

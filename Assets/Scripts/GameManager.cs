@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
 
         playerLastOverworldPosition = playerInstance.gameObject.transform.position;
         Debug.Log(playerLastOverworldPosition);
-        overworldUI.gameObject.SetActive(false);
+        //overworldUI.gameObject.SetActive(false);
         SceneManager.LoadScene(2);
         /*
         SceneManager.sceneLoaded += ;
