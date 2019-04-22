@@ -7,15 +7,20 @@ public class QuestNPC : NPC
     [SerializeField] string[] questCompleteDialogue;
     [SerializeField] string[] initialDialogue;
     [SerializeField] string itemNeeded;
+    [SerializeField] int rewardGoldAmount;
+    PlayerController player;
+
     public override void interactAction()
     {
         gameManager = GameManager.gameManagerInst;
         gameManager.freezeGameWorld();
+        player = (PlayerController)GameObject.Find("Player").GetComponent(typeof(PlayerController));
         dialogueCanvas.gameObject.SetActive(true);
 
         if (checkIfPlayerHasItem() == true)
         {
             dialogue = questCompleteDialogue;
+            player.gainMoney(rewardGoldAmount);
         }
         else if (checkIfPlayerHasItem() == false)
         {
@@ -26,7 +31,6 @@ public class QuestNPC : NPC
 
     public bool checkIfPlayerHasItem()
     {
-        PlayerController player = player = (PlayerController)GameObject.Find("Player").GetComponent(typeof(PlayerController));
         if (player.inventory.getItemByName(itemNeeded) != null)
         {
             return true;

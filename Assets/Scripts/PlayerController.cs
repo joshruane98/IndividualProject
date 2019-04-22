@@ -145,14 +145,19 @@ public class PlayerController : BattleCharacter {
         baseDefence = amount;
     }
 
+    public void gainMoney(int amount)
+    {
+        moneyBalance += amount;
+        moneyDisplay.text = moneyBalance.ToString();
+    }
+
     //CHECK COLLISIONS
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Collectable"))
         {
             collision.gameObject.SetActive(false);
-            moneyBalance++;
-            moneyDisplay.text = moneyBalance.ToString();
+            gainMoney(1);
         }
         
         if (collision.gameObject.CompareTag("InventoryItem"))
