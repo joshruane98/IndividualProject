@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     Vector3 playerLastOverworldPosition;
     GameObject[] enemies;
     List<int> defeatedEnemiesIDs;
+    GameObject[] items;
+    List<int> collectedInventoryItemIDs;
     int enemyEncounteredByPlayer; //Stores ID of last enemy encountered.
     bool playerWonLastBattle;
 
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(1);
         }
         defeatedEnemiesIDs = new List<int>();
+        collectedInventoryItemIDs = new List<int>();
     }
 
     void SetupGM()
@@ -101,6 +104,11 @@ public class GameManager : MonoBehaviour
         //enemyEncounteredByPlayer = null;
     }
 
+    public void setItemAsCollected(int ID)
+    {
+        collectedInventoryItemIDs.Add(ID);
+    }
+
     public void freezeGameWorld()
     {
         playerInstance.movementDisabled = true;
@@ -140,6 +148,12 @@ public class GameManager : MonoBehaviour
             if (firstOverworldLoad)
             {
                 enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                GameObject[] _items = GameObject.FindGameObjectsWithTag("InventoryItem");
+                GameObject[] _consumables = GameObject.FindGameObjectsWithTag("ConsumableItem");
+                List<GameObject> temp = new List<GameObject>();
+                temp.AddRange(_items);
+                temp.AddRange(_consumables);
+                items = temp.ToArray();
             }
 
             foreach (GameObject enemy in enemies)
@@ -148,6 +162,15 @@ public class GameManager : MonoBehaviour
                 if (defeatedEnemiesIDs.Contains(_enemy.id))
                 {
                     _enemy.gameObject.SetActive(false);
+                }
+            }
+
+            foreach (GameObject item in items)
+            {
+                InventoryItem _item = (InventoryItem)item.gameObject.GetComponent(typeof(InventoryItem));
+                if (collectedInventoryItemIDs.Contains(_item.id))
+                {
+                    _item.gameObject.SetActive(false);
                 }
             }
         }

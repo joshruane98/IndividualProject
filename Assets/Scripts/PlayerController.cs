@@ -157,14 +157,18 @@ public class PlayerController : BattleCharacter {
         
         if (collision.gameObject.CompareTag("InventoryItem"))
         {
+            InventoryItem item = (InventoryItem)collision.gameObject.GetComponent(typeof(InventoryItem));
             collision.gameObject.SetActive(false);
-            inventory.addItem((InventoryItem)collision.gameObject.GetComponent(typeof(InventoryItem)));
+            inventory.addItem(item);
+            gameManager.setItemAsCollected(item.id);
         }
         
         if (collision.gameObject.CompareTag("ConsumableItem"))
         {
+            ConsumableItem item = (ConsumableItem)collision.gameObject.GetComponent(typeof(ConsumableItem));
             collision.gameObject.SetActive(false);
-            inventory.addItem((ConsumableItem)collision.gameObject.GetComponent(typeof(ConsumableItem)));
+            inventory.addItem(item);
+            gameManager.setItemAsCollected(item.id);
         }
         
     }
