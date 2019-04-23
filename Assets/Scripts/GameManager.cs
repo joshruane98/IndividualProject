@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     BattleManager battleManager;
     Canvas overworldUI;
 
+    public GameObject demoEndBG;
+    Animator demoEndBGAnim;
+    public GameObject demoEndText;
+    Animator demoEndTextAnim;
+
     bool firstOverworldLoad;
 
     IDictionary<string, int> enemyStats;
@@ -38,6 +43,9 @@ public class GameManager : MonoBehaviour
         collectedInventoryItemIDs = new List<int>();
         numberOfEnemiesBeaten = 0;
         numberOfQuestsCompleted = 0;
+
+        demoEndBGAnim = (Animator)demoEndBG.GetComponent(typeof(Animator));
+        demoEndTextAnim = (Animator)demoEndText.GetComponent(typeof(Animator));
     }
 
     void SetupGM()
@@ -64,8 +72,11 @@ public class GameManager : MonoBehaviour
 
     IEnumerator endDemo()
     {
+        yield return new WaitForSeconds(6);
+        demoEndBGAnim.SetBool("demoEnded", true);
+        demoEndTextAnim.SetBool("demoEnded", true);
         Debug.Log("Ending.....");
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(6);
         restartGame();
     }
 
