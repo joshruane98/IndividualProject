@@ -106,6 +106,7 @@ public class PlayerController : BattleCharacter {
     public void setBattlePosition()
     {
         transform.position = new Vector3(-0.52f, -1.90f, -0.08f);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
         transform.Translate(new Vector3(0, 0, 0) * Time.deltaTime);
         anim.SetBool("IsWalking", false);
     }

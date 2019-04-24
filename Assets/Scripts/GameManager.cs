@@ -73,7 +73,9 @@ public class GameManager : MonoBehaviour
     IEnumerator endDemo()
     {
         yield return new WaitForSeconds(6);
+        demoEndBG.SetActive(true);
         demoEndBGAnim.SetBool("demoEnded", true);
+        demoEndText.SetActive(true);
         demoEndTextAnim.SetBool("demoEnded", true);
         Debug.Log("Ending.....");
         yield return new WaitForSeconds(6);
