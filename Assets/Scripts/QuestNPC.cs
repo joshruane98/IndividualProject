@@ -10,6 +10,10 @@ public class QuestNPC : NPC
     [SerializeField] int rewardGoldAmount;
     PlayerController player;
 
+    public AudioClip happySound;
+
+    bool rewardGiven = false;
+
     public override void interactAction()
     {
         gameManager = GameManager.gameManagerInst;
@@ -19,11 +23,17 @@ public class QuestNPC : NPC
 
         if (checkIfPlayerHasItem() == true)
         {
+            source.PlayOneShot(happySound);
             dialogue = questCompleteDialogue;
-            player.gainMoney(rewardGoldAmount);
+            if (rewardGiven == false)
+            {
+                player.gainMoney(rewardGoldAmount);
+                rewardGiven = true;
+            }
         }
         else if (checkIfPlayerHasItem() == false)
         {
+            source.PlayOneShot(talkSound);
             dialogue = initialDialogue;
         }
         dialogueDisplay.text = dialogue[0];

@@ -36,6 +36,8 @@ public class Enemy : BattleCharacter
         target.LoseHealth((int)(damage * 3));
         //Enemy is exhausted from attack so misses next turn
         isStunned = true;
+        source.PlayOneShot(attackSound);
+        anim.Play("Attack");
         turnsToMiss = 1;
     }
 

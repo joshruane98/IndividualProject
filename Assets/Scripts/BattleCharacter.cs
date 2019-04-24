@@ -17,6 +17,12 @@ public class BattleCharacter : MonoBehaviour
     public ParticleSystem hurtEffect;
     public ParticleSystem intimidatedEffect;
 
+    public AudioSource source;
+    public AudioClip attackSound;
+    public AudioClip hurtSound;
+    public AudioClip celebrateSound;
+    public AudioClip disappointedSound;
+
     public bool isStunned; //To miss turns in battle
     public int turnsToMiss; //How many turns to miss when stunned
 
@@ -112,6 +118,7 @@ public class BattleCharacter : MonoBehaviour
             health = 0;
         }
         hurtEffect.Play();
+        source.PlayOneShot(hurtSound);
     }
 
     //Attack
@@ -159,6 +166,7 @@ public class BattleCharacter : MonoBehaviour
         }
         target.LoseHealth(damage);
         anim.Play("Attack");
+        source.PlayOneShot(attackSound);
     }
 
     public bool SpeedyAttack(BattleCharacter target)
@@ -168,11 +176,14 @@ public class BattleCharacter : MonoBehaviour
         if (getReflex() > (target.getReflex() + (target.getReflex() * 0.1)))
         {
             target.LoseHealth((int)(damage * 1.5));
+            anim.Play("Attack");
+            source.PlayOneShot(attackSound);
             return true;
         }
         else
         {
             Debug.Log("Speedy attack failed");
+            source.PlayOneShot(disappointedSound);
             return false;
         }
     }
@@ -183,6 +194,7 @@ public class BattleCharacter : MonoBehaviour
         {
             target.DecreaseAttackPower((int)(target.getAttackPower() / 4));
             target.DecreaseDefence((int)(target.getDefence() / 4));
+            source.PlayOneShot(celebrateSound);
             return true;
         }
         else if (getBravery() == target.getBravery())
@@ -194,11 +206,13 @@ public class BattleCharacter : MonoBehaviour
                 return true;
             }
             Debug.Log("Intimidation failed");
+            source.PlayOneShot(disappointedSound);
             return false;
         }
         else
         {
             Debug.Log("Intimidation failed");
+            source.PlayOneShot(disappointedSound);
             return false;
         }
     }

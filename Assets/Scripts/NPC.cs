@@ -13,6 +13,8 @@ public class NPC : Interactable
     public Text dialogueDisplay;
     //public GameObject dialogueBackground;
     //public Button nextSentenceButton;
+    public AudioSource source;
+    public AudioClip talkSound;
     public override void interactAction()
     {
         gameManager = GameManager.gameManagerInst;
@@ -21,6 +23,7 @@ public class NPC : Interactable
         //dialogueDisplay.gameObject.SetActive(true);
         //dialogueBackground.SetActive(true);
         //nextSentenceButton.gameObject.SetActive(true);
+        source.PlayOneShot(talkSound);
         dialogueDisplay.text = dialogue[0];
     }
 

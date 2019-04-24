@@ -20,6 +20,10 @@ public class PlayerController : BattleCharacter {
     public GameObject interactPrompt;
     public Text moneyDisplay;
 
+    //Audio
+    public AudioClip walkSound;
+    public AudioClip goldCollectSound;
+
     // Used Awake instead of Start to ensure that all player stats are initialised before being read in battle.
     void Awake () {
         if (onlyPlayerController != null)
@@ -108,6 +112,11 @@ public class PlayerController : BattleCharacter {
 
     void goInDirection(string direction)
     {
+        //source.clip = walkSound;
+        if (!source.isPlaying)
+        {
+            source.PlayOneShot(walkSound);
+        }
         if (direction == "forward")
         {
             transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -149,6 +158,7 @@ public class PlayerController : BattleCharacter {
     {
         moneyBalance += amount;
         moneyDisplay.text = moneyBalance.ToString();
+        source.PlayOneShot(goldCollectSound);
     }
 
     //CHECK COLLISIONS
