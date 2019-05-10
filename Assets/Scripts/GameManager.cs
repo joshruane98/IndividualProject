@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+//Class: GameManager
+//Handles overall game state. Persistent across all scenes.
 public class GameManager : MonoBehaviour
 {
+    //Variable: gameManagerInst
+    //Stores the instance of the Game Manager. Used for checking to ensure one instance of PlayerController persists across all scenes
     public static GameManager gameManagerInst;
+    //Variable: playerInstance
+    //Reference to the player
     PlayerController playerInstance;
+    //Variable: battleManager
+    //Reference to the battle manager stored if currently in a battle.
     BattleManager battleManager;
     Canvas overworldUI;
 
@@ -15,24 +23,45 @@ public class GameManager : MonoBehaviour
     public GameObject demoEndText;
     Animator demoEndTextAnim;
 
+    //Variable: firstOverworldLoad
+    //Detects if the overworld is being loaded for the first time.
     bool firstOverworldLoad;
 
+    //Variable: enemyStats
+    //A dictionary to contain the enemy stats of the enemy the player is entering into battle with. Obtained from the player. 
     IDictionary<string, int> enemyStats;
+    //Variable: playerLastOverworldPosition
+    //Stores the last position of the player in the overworld in order to return them to this position after battle.
     Vector3 playerLastOverworldPosition;
+    //Variable: enemies
+    //All enemies in the overworld.
     GameObject[] enemies;
+    //Variable: defeatedEnemiesIDs
+    //Stores the ID's of all defeated enemies so that they are removed from the overworld when it is loaded.
     List<int> defeatedEnemiesIDs;
+    //Variable: items
+    //All items in the overworld.
     GameObject[] items;
+    //Variable: collectedInventoryItemIDs
+    //Stores the ID's of all collected items so that they are removed from the overworld when it is loaded.
     List<int> collectedInventoryItemIDs;
-    int enemyEncounteredByPlayer; //Stores ID of last enemy encountered.
+    //Variable: enemyEncounteredByPlayer
+    //Stores ID of last enemy encountered.
+    int enemyEncounteredByPlayer;
+    //Variable: playerWonLastBattle
+    //Signals if the last battle was won or not.
     bool playerWonLastBattle;
     public int numberOfEnemiesBeaten;
     public int numberOfQuestsCompleted;
 
-    // Start is called before the first frame update
+    /* Function: Awake
+        Unity function with unique behaviour. Set-up funtion. 
+        Calls SetupGM(). Obtains the instance of the player. Checks if the currently loaded scene is the Preload Scene (as this is where
+        the Game Manager is instantiated). If it is, the Overworld is loaded. Initialises variables.
+    */
     void Awake()
     {
         SetupGM();
-        playerInstance = PlayerController.onlyPlayerController; //Store reference to instance of player.
         overworldUI = (Canvas)GameObject.Find("OverworldUI").GetComponent(typeof(Canvas));
         if (SceneManager.GetActiveScene().name == "Preload")
         {
@@ -48,6 +77,9 @@ public class GameManager : MonoBehaviour
         demoEndTextAnim = (Animator)demoEndText.GetComponent(typeof(Animator));
     }
 
+    /* Function: SetupGM
+        Checks to see if an instance of a game manager is already active. If yes, the new instance is destroyed. If no, gameManagerInst is set to this.
+    */
     void SetupGM()
     {
         //Check if there is already an Instance of Game Manager
@@ -56,10 +88,23 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
         gameManagerInst = this;
+        if (gameManagerInst == null)
+        {
+            Debug.Log("Game Manager Not Instantiated");
+        }
         //Ensure Game Manager persists through all scenes
         GameObject.DontDestroyOnLoad(this.gameObject);
+
     }
 
+    private void Start()
+    {
+        playerInstance = PlayerController.playerControllerInst; //Store reference to instance of player.
+    }
+
+    /* Function: checkForDemoEnd
+        Checks if 2 quests are completed and 3 enemies are defeated. If true, starts endDemo() coroutine.
+    */
     public void checkForDemoEnd()
     {
         Debug.Log("Checking.....");
@@ -70,6 +115,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /* Function: endDemo
+        Coroutine. Begins a six second timer, and fades in the end demo screen. After six seconds restartGame() is called.
+    */
     IEnumerator endDemo()
     {
         yield return new WaitForSeconds(6);
@@ -82,6 +130,16 @@ public class GameManager : MonoBehaviour
         restartGame();
     }
 
+    /* Function: LoadBattle
+
+        Called in PlayerController.OnTriggerEnter() when the player collides with an enemy. Accesses the enemy's stats and assigns them to enemyStats. Sets enemyEncounteredByPlayer to the enemy's ID.
+        Deactivates Overworld UI. Sets playerLastOverworldPosition to the player's current position. Loads the Battle Scene.
+
+       Parameters:
+
+          _enemy - The enemy encountered that will be taking part in battle.
+
+    */
     public void LoadBattle(Enemy _enemy)
     {
         enemyStats = new Dictionary<string, int>()
@@ -106,18 +164,6 @@ public class GameManager : MonoBehaviour
         Debug.Log(playerLastOverworldPosition);
         overworldUI.gameObject.SetActive(false);
         SceneManager.LoadScene("BattleTestScene");
-        /*
-        SceneManager.sceneLoaded += ;
-        BattleManager battleManager = (BattleManager)GameObject.Find("BattleManagerObject").GetComponent(typeof(BattleManager));
-        if (SceneManager.GetSceneByBuildIndex(2).isLoaded)
-        {
-            if (battleManager != null)
-            {
-                Debug.Log("Theres a battle manager");
-            }
-        }
-        battleManager.assignEnemyStats(enemyStats);
-        */
     }
 
     public IDictionary<string, int> SendEnemyStats()
@@ -125,6 +171,12 @@ public class GameManager : MonoBehaviour
         return enemyStats;
     }
 
+    /* Function: LoadOverwoldAfterBattle
+
+        Called in BattleManager.Wait() when the player has won a battle. If playerWonLastBattle is true, enemyEncounteredByPlayer is added to defeatedEnemiesIDs and numberOfEnemiesBeaten 
+        is incremented. Activates Overworld UI. Sets player's current position to playerLastOverworldPosition. Loads the Overworld Scene. checkForDemoEnd() called.
+
+    */
     public void LoadOverwoldAfterBattle()
     {
         playerInstance.gameObject.transform.position = playerLastOverworldPosition - new Vector3(0, 0, 3);
@@ -160,6 +212,9 @@ public class GameManager : MonoBehaviour
         playerWonLastBattle = result;
     }
 
+    /* Function: restartGame
+        Destroys the player, loads the main menu, then destroys the game manager.
+    */
     public void restartGame()
     {
         Destroy(playerInstance.gameObject);
@@ -167,25 +222,33 @@ public class GameManager : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    //SCEN LOADED MANAGEMENT
+    //SCENE LOADED MANAGEMENT
+
+    /* Function: OnEnable
+        Unity Function. Used to subscribe to the event where levels finish loading.
+    */
     void OnEnable()
     {
-        //Tell our 'OnLevelFinishedLoading' function to start listening for a scene change as soon as this script is enabled.
         SceneManager.sceneLoaded += OnSceneFinishedLoading;
     }
 
+    /* Function: OnDisable
+        Unity Function. Used to unsubscribe to the event where levels finish loading.
+    */
     void OnDisable()
     {
-        //Tell our 'OnLevelFinishedLoading' function to stop listening for a scene change as soon as this script is disabled. Remember to always have an unsubscription for every delegate you subscribe to!
         SceneManager.sceneLoaded -= OnSceneFinishedLoading;
     }
 
+    /* Function: OnSceneFinishedLoading
+        Checks if the scene that has just been loaded is the overowrld. If firstOverworldLoad is true, all enemies and items are found by searching for their tags. Consumable items and Inventory items
+        have to be found separately as Unity function FindGameObjectsWithTag() only takes one parameter. The lists to store these two types of items are then merged, converted into an array and stored
+        in items. Enemies are all stored in enemies.
+
+        enemies and items are both iterated through. Where the ID of the current element is found in defeatedEnemiesIDs/collectedInventoryItemIDs, the game object is set to inactive.
+    */
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("Level Loaded");
-        Debug.Log(scene.name);
-        Debug.Log(mode);
-
         if (scene.name == "Overworld")
         {
             if (firstOverworldLoad)

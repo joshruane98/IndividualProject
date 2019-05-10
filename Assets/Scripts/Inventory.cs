@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Class: Inventory
+//The class implementing the player's inventory.
 public class Inventory : MonoBehaviour
 {
+    //Variable: inventory
+    //A dictionary containing key-value pairs of slot number and the inventoryItem in that slot.
     IDictionary<int, InventoryItem> inventory;
     int maxInventorySize;
+    //Variable: selectedSlot
+    //The number of the currently selected slot, used as the value to access an item in the inventory dictionary.
     int selectedSlot;
 
     //UI
@@ -19,6 +25,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] Text descriptionTextBox;
     [SerializeField] Button consumeButton;
 
+    //Function: Awake
+    //Unity function with unique behaviour. Set-up function used for initialisation.
     void Awake()
     {
         inventory = new Dictionary<int, InventoryItem>()
@@ -34,11 +42,33 @@ public class Inventory : MonoBehaviour
 
     }
 
+    /* Function: getItemInSlot
+
+       Parameters:
+
+          slotNum - The slot number needed to be accessed.
+
+       Returns:
+
+          The InventoryItem in the requested slot.
+
+    */
     public InventoryItem getItemInSlot(int slotNum)
     {
         return inventory[slotNum];
     }
 
+    /* Function: getItemByName
+
+       Parameters:
+
+          itemRequired - The name of the requested item.
+
+       Returns:
+
+          The requested InventoryItem. If the item is not found, null is returned.
+
+    */
     public InventoryItem getItemByName(string itemRequired)
     {
         for (int i = 1; i <= maxInventorySize; i++)
@@ -52,6 +82,16 @@ public class Inventory : MonoBehaviour
         return null;
     }
 
+    /* Function: addItem
+       
+       Adds a newly collected item to the inventory. Currently contains no checking for if inventory is full but this isn't necessary at present as
+       the demo contains less than the maximum number of items.
+
+       Parameters:
+            
+          itemToAdd - The item to be added to the inventory.
+
+    */
     public void addItem(InventoryItem itemToAdd)
     {
         InventoryItem _itemToAdd = itemToAdd;
@@ -70,6 +110,13 @@ public class Inventory : MonoBehaviour
         Debug.Log(inventory[1].itemName);
     }
 
+    /* Function: removeItemByName
+
+       Parameters:
+
+          itemToBeRemoved - The name of the item to be removed.
+
+    */
     public void removeItemByName(string itemToBeRemoved)
     {
         //Primarily for removing quest items, not consumables such as potions.
@@ -84,6 +131,13 @@ public class Inventory : MonoBehaviour
         organiseInventory();
     }
 
+    /* Function: removeItemInSlot
+
+       Parameters:
+
+          slot - The slot number needed to be accessed.
+
+    */
     public void removeItemInSlot(int slot)
     {
         inventory[slot] = null;
@@ -93,6 +147,16 @@ public class Inventory : MonoBehaviour
         displayInventory();
     }
 
+    /* Function: setSelectedSlot
+
+       Called when a slot is clicked on in the menu. Displays the description of the item in the selected slot, as well as the 'Consume'
+       button if the item in the slot is of type ConsumableItem.
+
+       Parameters:
+
+          slotNumber - The slot number selected.
+
+    */
     public void setSelectedSlot(int slotNumber)
     {
         //When a slot button is clicked...
@@ -108,6 +172,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    /*Function: consumeButtonAction
+        Called when the consume button is pressed. Double checks if the item in the selected slot is of type ConsumableItem and, if so, calls
+        the items consumeItem() function. The double check is neccesary due to the utilisation of polymorphism here and the InventoryItem class
+        not containing a consumeItem() function.
+    */
     public void consumeButtonAction()
     {
         if (inventory[selectedSlot].GetType() == typeof(ConsumableItem))
@@ -118,6 +187,8 @@ public class Inventory : MonoBehaviour
         removeItemInSlot(selectedSlot);
     }
 
+    //Function: organiseInventory
+    //Closes any gaps in the inventory when an item is removed.
     public void organiseInventory()
     {
         //Used to close gaps in inventory when items removed
@@ -133,6 +204,8 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //Function: displayInventory
+    //Displays the inventory UI on screen when the R key is pressed.
     public void displayInventory()
     {
         inventoryDisplay.SetActive(true);
@@ -185,6 +258,8 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    //Function: closeInventory
+    //Closes the inventory UI on screen when the cross is clicked.
     public void closeInventory()
     {
         slot1Button.gameObject.SetActive(false);
@@ -193,10 +268,5 @@ public class Inventory : MonoBehaviour
         slot4Button.gameObject.SetActive(false);
         slot5Button.gameObject.SetActive(false);
         inventoryDisplay.SetActive(false);
-    }
-
-    public void OnDestroy()
-    {
-        Debug.Log("Inventory destroyed");
     }
 }

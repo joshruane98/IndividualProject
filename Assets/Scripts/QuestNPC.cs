@@ -28,6 +28,8 @@ public class QuestNPC : NPC
             if (rewardGiven == false)
             {
                 player.gainMoney(rewardGoldAmount);
+                gameManager.numberOfQuestsCompleted++;
+                gameManager.checkForDemoEnd();
                 rewardGiven = true;
             }
         }
@@ -43,8 +45,7 @@ public class QuestNPC : NPC
     {
         if (player.inventory.getItemByName(itemNeeded) != null)
         {
-            gameManager.numberOfQuestsCompleted++;
-            gameManager.checkForDemoEnd();
+            player.inventory.removeItemByName(itemNeeded);
             return true;
         }
         else

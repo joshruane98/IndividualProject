@@ -155,6 +155,17 @@ public class BattleCharacter : MonoBehaviour
     }
 
     //---BATTLE ACTIONS---
+
+    /* Function: Attack
+
+        Calculates damage by multiplying the attackPower by the taget's defence divided by 200 (the max value). Calls target.loseHealth passing the damage
+        as the parameter. Plays the attack animation and sound.
+
+       Parameters:
+
+          target - The target for the attack (the opponent in battle).
+
+    */
     public void Attack(BattleCharacter target)
     {
         float attackPwr = getAttackPower();
@@ -169,6 +180,17 @@ public class BattleCharacter : MonoBehaviour
         source.PlayOneShot(attackSound);
     }
 
+    /* Function: SpeedyAttack
+
+        Calculates damage by multiplying the attackPower by the taget's defence divided by 200 (the max value). Calls target.loseHealth passing the damage
+        as the parameter. If reflex is at least 10% higher than the target's reflex, 1.5x damage is done, passed as a parameter to target.loseHealth(). 
+        Plays the attack animation and sound.
+
+       Parameters:
+
+          target - The target for the attack (the opponent in battle).
+
+    */
     public bool SpeedyAttack(BattleCharacter target)
     {
         float attackPwr = getAttackPower();
@@ -188,6 +210,16 @@ public class BattleCharacter : MonoBehaviour
         }
     }
 
+    /* Function: Intimidate
+
+        If bravery is greater than target's bravery, intimidation is successful. If they are equal, a random number is generated; if it is even, intimidation
+        is successful, if it is odd, intimidation is unsuccessful. If intimidation is successful, targets attack and defence are reduced by a quarter.
+
+       Parameters:
+
+          target - The target for the attack (the opponent in battle).
+
+    */
     public bool Intimidate(BattleCharacter target)
     {
         if (getBravery() > target.getBravery())
@@ -217,17 +249,27 @@ public class BattleCharacter : MonoBehaviour
         }
     }
 
+    /* Function: Stun
+
+        If bravery is greater than target's bravery, intimidation is successful. If they are equal, a random number is generated; if it is even, intimidation
+        is successful, if it is odd, intimidation is unsuccessful. If intimidation is successful, targets attack and defence are reduced by a quarter.
+
+       Parameters:
+
+          target - The target for the attack (the opponent in battle).
+
+    */
     public void Stun(BattleCharacter target)
     {
         target.isStunned = true;
         target.turnsToMiss = 1;
     }
 
-    public void Observe(BattleCharacter target)
-    {
+    /* Function: generateDescription
 
-    }
+        Generates textual description of the BattleCharacter based on it's stats.
 
+    */
     public string generateDescription()
     {
         int _attack = getAttackPower();

@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Class: Enemy
+//The class responsible for all enemy behaviour. Extends the Battle Character Class.
 public class Enemy : BattleCharacter
 {
+    //Variable: speedyAttackFailed
+    //Identifies if a Sppedy Attack has previously failed. If it has then this will not be chosen as a preferred action again.
     bool speedyAttackFailed;
 
     public int id;
@@ -15,7 +19,9 @@ public class Enemy : BattleCharacter
     public Text mAttackWeightDisp;
     public Text stunWeightDisp;
     public Text intimiWeightDisp;
-    // Start is called before the first frame update
+
+    //Function: Awake
+    //Unity function with unique behaviour. Set-up function used for initialisation.
     void Awake()
     {
         isStunned = false;
@@ -23,12 +29,15 @@ public class Enemy : BattleCharacter
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    /* Function: MassiveAttack
 
+        Executes a Massive Attack on the player, dealing triple the normal amount of damage. Stuns the enemy for one turn after use.
+
+       Parameters:
+
+          target - The target for the attack (the player).
+
+    */
     public void MassiveAttack(BattleCharacter target)
     {
         float attackPwr = getAttackPower();
@@ -41,6 +50,22 @@ public class Enemy : BattleCharacter
         turnsToMiss = 1;
     }
 
+    /* Function: chooseAction
+
+        Used to randomly select an attack using the weights assigned in assignActionWeights().
+        Called by the BattleManager class on the enemy's turn.
+
+       Parameters:
+
+          playerHealth - The player's current health.
+          playerDescription - The description of the player, suggesting its stats.
+          turnNumber - The current turn nuber in the battle.
+       
+       Returns:
+
+          The chosen action.
+
+    */
     public string chooseAction(int playerHealth, string playerDescription, int turnNumber)
     {
         IDictionary<string, float> actionWeights = new Dictionary<string, float>()
@@ -73,6 +98,23 @@ public class Enemy : BattleCharacter
         return "OUT OF RANGE";//If no action is returned - shouldn't reach here
     }
 
+    /* Function: chooseAction
+
+        Used to assign weightings to each action based on the current situation. Implements the decision tree designed to represent the enemy's AI.
+        Called by chooseAction().
+
+       Parameters:
+
+          _actionWeights - The Dictionary containing key-value pairs made up of the actions and their weights, initialised as 0, ready to be assigned.
+          _playerHealth - The player's current health.
+          _playerDescription - The description of the player, suggesting its stats.
+          _turnNumber - The current turn nuber in the battle.
+
+       Returns:
+
+          The Dictionary of Action Weights, with appropriately assigned weights of each action dependent on the current battle situation.
+
+    */
     IDictionary<string, float> assignActionWeights(IDictionary<string, float> _actionWeights, int _playerHealth, string _playerDescription, int _turnNumber)
     {
         float remainingWeight;
@@ -203,6 +245,8 @@ public class Enemy : BattleCharacter
         return _actionWeights;
     }
 
+    //Function: displayWeightings
+    //Debug funtion to display all weights on the battle UI to aid in assessment.
     void displayWeightings(IDictionary<string, float> _actionWeights)
     {
         attackWeightDisp.text = "Attack weight: " + _actionWeights["attack"];

@@ -15,6 +15,16 @@ public class NPC : Interactable
     //public Button nextSentenceButton;
     public AudioSource source;
     public AudioClip talkSound;
+
+    private void Start()
+    {
+        gameManager = GameManager.gameManagerInst;
+        if (gameManager != null)
+        {
+            Debug.Log("NPC has GM");
+        }
+    }
+
     public override void interactAction()
     {
         gameManager = GameManager.gameManagerInst;
