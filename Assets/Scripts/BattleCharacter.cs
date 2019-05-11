@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class: BattleCharacter
+//The Superclass for PlayerController and Enemy. Contains all state and behaviour common between the two.
 public class BattleCharacter : MonoBehaviour
 {
     [SerializeField] protected int maxHealth;
@@ -158,8 +160,8 @@ public class BattleCharacter : MonoBehaviour
 
     /* Function: Attack
 
-        Calculates damage by multiplying the attackPower by the taget's defence divided by 200 (the max value). Calls target.loseHealth passing the damage
-        as the parameter. Plays the attack animation and sound.
+        Calculates damage by multiplying the attackPower by the taget's defence divided by 200 (the max value), and subracting this from the attack power.
+        Calls target.loseHealth passing the damage as the parameter. Plays the attack animation and sound.
 
        Parameters:
 

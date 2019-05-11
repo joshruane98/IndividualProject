@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
 //Class: PlayerController
 //The class responsible for all player behaviour. Extends the Battle Character Class.
 public class PlayerController : BattleCharacter {

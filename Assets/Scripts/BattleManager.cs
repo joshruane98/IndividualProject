@@ -4,15 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+//Class: BattleManager
+//The class that controls the entire turn-based battle.
 public class BattleManager : MonoBehaviour
 {
     //REFERENCES TO BATTLE CHARACTERS
+    //Variable: player
+    //Reference to the player.
     public PlayerController player;
+    //Variable: enemy
+    //Reference to the enemy.
     public Enemy enemy;
 
+    //Variable: gameManager
+    //Reference to the Game Manager
     GameManager gameManager;
 
     //STATE VARIABLES
+    //Variable: States
+    //Defines the different states of the battle: Player Turn, Enemy Turn, Wait Between Turns, Player Win, Player Lose.
     public enum States
     {
         PLAYERS_TURN,
@@ -26,6 +36,8 @@ public class BattleManager : MonoBehaviour
 
     int turnNumber;
 
+    //Variable: enemyAction
+    //The action the enemy has selected to take.
     string enemyAction;
 
     //UI
@@ -56,7 +68,8 @@ public class BattleManager : MonoBehaviour
 
 
 
-    // Start is called before the first frame update
+    //Function: Start
+    //Unity function with unique behaviour. Set-up function. Calls assignEnemyStats(). Calls decideWhoStarts(). General set up of references, UI and animators.
     void Start()
     {
         gameManager = GameManager.gameManagerInst;
@@ -83,7 +96,25 @@ public class BattleManager : MonoBehaviour
         gameOverTextAnim = (Animator)gameOverText.GetComponent(typeof(Animator));
     }
 
-    // Update is called once per frame
+    /*Function: Update
+     
+     Unity function with unique behaviour. Update is called once per frame. Calls checkForBattleEnd. Updates UI. Contains switch statement for States.
+     Player Turn:
+        Checks if player is stunned. If player is stunned, turns to miss is decremented.
+        PlayerBattleMenu is made active to allow player to choose an action.
+    Enemy Turn:
+        Checks if enemy is stunned. If enemy is stunned, turns to miss is decremented.
+        Setes enemyAction to the return value of enemy.chooseAction(), passing player health, player description and turn number as parameters.
+        Handles enemyAction using if statement to check what enemyAction is, then call the coorect function, e.g. enemy.Attack().
+    Player Win:
+        Sets gameManager.setPlayerWonLastBattle() to true.
+    Player Lose:
+        Sets gameManager.setPlayerWonLastBattle() to false.
+        Activates Game Over Screen.
+
+    endTurn() last function called in every case.
+
+    */
     void Update()
     {
         checkForBattleEnd();
@@ -201,6 +232,13 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    /*Function: decideWhoStarts
+
+     Compares player and enemy reflex stats to determine who starts the battle.
+     If they are the same, a random number is generated. If it's even, player starts, if it's odd, enemy starts.
+     Sets currentState to PLAYERS_TURN or ENEMYS_TURN respectively.
+
+    */
     void decideWhoStarts()
     {
         if (player.getReflex() > enemy.getReflex())
@@ -222,6 +260,12 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    /*Function: assignEnemyStats
+
+     Calls gameManager.SendEnemyStats() to retrieve dictionary containing enemy stats from enemy encountered in overworld.
+     These stats are assigned to the instance of thre enemy in the battle, using the relevant setter functions.
+
+    */
     public void assignEnemyStats()
     {
         IDictionary<string, int> enemyStats = gameManager.SendEnemyStats();
@@ -246,6 +290,13 @@ public class BattleManager : MonoBehaviour
         EReflexDisp.text = "Reflex: " + enemy.getReflex();
 }
 
+    /*Function: endTurn
+
+     If the current its curently the players turn, PlayerBattleMenu is deactivated.
+     previousState set to current state. Current state set to WAIT_BETWEEN_TURNS.
+     Starts Wait() coroutine.
+
+    */
     void endTurn()
     {
         playerHealthUI.text = player.getHealth().ToString();
@@ -258,7 +309,13 @@ public class BattleManager : MonoBehaviour
         currentState = States.WAIT_BETWEEN_TURNS;
         StartCoroutine(Wait());
     }
-    
+
+    /*Function: switchTurns
+
+     Switches from players turn to enemy's turn and vice-versa.
+     Increments turnNumber.
+
+    */
     void switchTurns()
     {
         battleCommentary.text = "";
@@ -274,6 +331,16 @@ public class BattleManager : MonoBehaviour
         Debug.Log("Turn " + turnNumber);
     }
 
+    /* Function: handlePlayerAction
+
+        Called when the player clicks one of the buttons in PlayerActionMenu.
+        Handles players action using if statement to check what action is, then call the correct function, e.g. player.Attack(). 
+
+       Parameters:
+
+          action - The action selected by the player.
+
+    */
     public void handlePlayerAction(string action)
     {
         Debug.Log(action);
@@ -328,6 +395,12 @@ public class BattleManager : MonoBehaviour
             endTurn();
         }
     }
+
+    /*Function: checkForBattleEnd
+
+     Checks if either player or enemy health is zero. Sets currentState to PLAYER_WIN or PLAYER_LOSE where appropriate.
+
+    */
     void checkForBattleEnd()
     {
         if (player.getHealth() <= 0 )
@@ -340,6 +413,12 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    /*Function: Wait
+
+     Coroutine. Waits for three secons before calling switchTurns. Also calls gameManager.restartGame() if player has lost or gameManager.LoadOverworldAfterBattle()
+     if player has won, after waiting.
+
+    */
     IEnumerator Wait()
     {
         Debug.Log("Waiting.........");
