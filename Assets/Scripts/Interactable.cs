@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//Class: Interactable
+//The class parent class for all interactable objects.
 public class Interactable : MonoBehaviour {
     [SerializeField] //To show in Inspector.
     private int id;
@@ -12,6 +14,8 @@ public class Interactable : MonoBehaviour {
         return id;
     }
 
+    //Function: interactAction
+    //Virtual method to be overridden by subclasses. Defines the behaviour of the object when it is interacted with.
     public virtual void interactAction()
     {
         Debug.Log("Interacted with");

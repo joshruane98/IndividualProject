@@ -179,7 +179,7 @@ public class GameManager : MonoBehaviour
     */
     public void LoadOverwoldAfterBattle()
     {
-        playerInstance.gameObject.transform.position = playerLastOverworldPosition - new Vector3(0, 0, 3);
+        playerInstance.gameObject.transform.position = playerLastOverworldPosition;
         SceneManager.LoadScene("Overworld");
         overworldUI.gameObject.SetActive(true);
         if (playerWonLastBattle)

@@ -65,7 +65,7 @@ public class PlayerController : BattleCharacter {
         baseDefence = 50;
         defence = baseDefence;
         bravery = 15;
-        reflex = 100;
+        reflex = 12;
         XP = 0;
         level = 1;
         moneyBalance = 0;
@@ -73,7 +73,7 @@ public class PlayerController : BattleCharacter {
         anim = GetComponent<Animator>();
     }
     //Function: Start
-    //Unity function with unique behaviour. Set-up function. Sets the instance to the game manager. This is called in start as GameManager is instantiated at awake so this ensures a reference can be created.
+    //Unity function with unique behaviour. Set-up function. Sets the reference to the game manager. This is called in start as GameManager is instantiated at awake so this ensures a reference can be created.
     void Start()
     {
         gameManager = GameManager.gameManagerInst;
@@ -100,22 +100,22 @@ public class PlayerController : BattleCharacter {
     {
         if (!movementDisabled)
         {
-            if (Input.GetKey("up"))
+            if (Input.GetKey("w"))
             {
                 goInDirection("forward");
                 anim.SetBool("IsWalking", true);
             }
-            else if (Input.GetKey("down"))
+            else if (Input.GetKey("s"))
             {
                 goInDirection("backward");
                 anim.SetBool("IsWalking", true);
             }
-            else if (Input.GetKey("left"))
+            else if (Input.GetKey("a"))
             {
                 goInDirection("left");
                 anim.SetBool("IsWalking", true);
             }
-            else if (Input.GetKey("right"))
+            else if (Input.GetKey("d"))
             {
                 goInDirection("right");
                 anim.SetBool("IsWalking", true);
